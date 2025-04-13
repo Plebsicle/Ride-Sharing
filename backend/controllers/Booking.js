@@ -122,12 +122,15 @@ export const getAllBookings = async (req, res) => {
 /**
  * Get booking by ID
  */
-export const getBookingById = async (req, res) => {
-  const { id } = req.params;
+ export const getBookingById  = async (req, res) => {
+  const { rideId } = req.params;
 
   try {
-    const booking = await prisma.booking.findUnique({
-      where: { id },
+    const bookings = await prisma.booking.findMany({
+      where: {
+        rideId,
+        status: 'IN_PROGRESS',
+      },
       include: {
         ride: true,
         passenger: true,
@@ -135,12 +138,14 @@ export const getBookingById = async (req, res) => {
       },
     });
 
-    if (!booking) return res.status(404).json({ error: 'Booking not found' });
+    if (!bookings || bookings.length === 0) {
+      return res.status(404).json({ error: 'No pending bookings found for this ride' });
+    }
 
-    res.json(booking);
+    res.json(bookings);
   } catch (err) {
-    console.error('Error fetching booking:', err);
-    res.status(500).json({ error: 'Failed to retrieve booking' });
+    console.error('Error fetching bookings:', err);
+    res.status(500).json({ error: 'Failed to retrieve bookings' });
   }
 };
 

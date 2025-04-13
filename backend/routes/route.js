@@ -24,14 +24,12 @@ router.post('/login', login);
 router.post('/send-otp', sendOtpToUser);
 router.post('/verify-otp', verifyOtp);
 
-
-
 router.post('/create-ride', createRide);
 router.get('/rides',getAllRides);
 // 📦 Booking Routes
 router.post('/bookings/:rideId', createBooking);
 router.get('/bookings', authenticate, getAllBookings);
-router.get('/bookings/:id', authenticate, getBookingById);
+router.get('/bookings/:id', getBookingById);
 router.put('/bookings/:id', authenticate, updateBooking);
 router.delete('/bookings/:id', authenticate, deleteBooking);
 
