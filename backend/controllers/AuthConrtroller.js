@@ -1,7 +1,7 @@
 import prisma from '../config/db.config.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import {generateOtp, sendOtp } from '../utils/sendOtp.js';
+import {generateOtp,sendOtp } from '../utils/sendOtp.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
