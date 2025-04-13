@@ -59,11 +59,11 @@ export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
  */
 export namespace $Enums {
   export const RideStatus: {
-  COMPLETED: 'COMPLETED',
-  IN_PROGRESS: 'IN_PROGRESS',
-  CANCELLED: 'CANCELLED',
   SCHEDULED: 'SCHEDULED',
-  BOOKED: 'BOOKED'
+  BOOKED: 'BOOKED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
 };
 
 export type RideStatus = (typeof RideStatus)[keyof typeof RideStatus]
@@ -1539,15 +1539,15 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    ridesGiven: number
     bookings: number
     notifications: number
+    ridesGiven: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ridesGiven?: boolean | UserCountOutputTypeCountRidesGivenArgs
     bookings?: boolean | UserCountOutputTypeCountBookingsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    ridesGiven?: boolean | UserCountOutputTypeCountRidesGivenArgs
   }
 
   // Custom InputTypes
@@ -1564,13 +1564,6 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountRidesGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: RideGivenWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
   export type UserCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookingWhereInput
   }
@@ -1580,6 +1573,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRidesGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RideGivenWhereInput
   }
 
 
@@ -1634,8 +1634,10 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: $Enums.UserRole | null
-    isVerified: boolean | null
     createdAt: Date | null
+    isVerified: boolean | null
+    aadharNumber: string | null
+    isAadharVerified: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1644,8 +1646,10 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: $Enums.UserRole | null
-    isVerified: boolean | null
     createdAt: Date | null
+    isVerified: boolean | null
+    aadharNumber: string | null
+    isAadharVerified: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1654,8 +1658,10 @@ export namespace Prisma {
     email: number
     password: number
     role: number
-    isVerified: number
     createdAt: number
+    isVerified: number
+    aadharNumber: number
+    isAadharVerified: number
     _all: number
   }
 
@@ -1666,8 +1672,10 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
-    isVerified?: true
     createdAt?: true
+    isVerified?: true
+    aadharNumber?: true
+    isAadharVerified?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1676,8 +1684,10 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
-    isVerified?: true
     createdAt?: true
+    isVerified?: true
+    aadharNumber?: true
+    isAadharVerified?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1686,8 +1696,10 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
-    isVerified?: true
     createdAt?: true
+    isVerified?: true
+    aadharNumber?: true
+    isAadharVerified?: true
     _all?: true
   }
 
@@ -1769,8 +1781,10 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    isVerified: boolean
     createdAt: Date
+    isVerified: boolean
+    aadharNumber: string | null
+    isAadharVerified: boolean
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1796,14 +1810,16 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
-    isVerified?: boolean
     createdAt?: boolean
-    vehicle?: boolean | User$vehicleArgs<ExtArgs>
-    ridesGiven?: boolean | User$ridesGivenArgs<ExtArgs>
+    isVerified?: boolean
+    aadharNumber?: boolean
+    isAadharVerified?: boolean
     bookings?: boolean | User$bookingsArgs<ExtArgs>
     driverVerification?: boolean | User$driverVerificationArgs<ExtArgs>
     location?: boolean | User$locationArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    ridesGiven?: boolean | User$ridesGivenArgs<ExtArgs>
+    vehicle?: boolean | User$vehicleArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1813,8 +1829,10 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
-    isVerified?: boolean
     createdAt?: boolean
+    isVerified?: boolean
+    aadharNumber?: boolean
+    isAadharVerified?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1823,8 +1841,10 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
-    isVerified?: boolean
     createdAt?: boolean
+    isVerified?: boolean
+    aadharNumber?: boolean
+    isAadharVerified?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1833,18 +1853,20 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
-    isVerified?: boolean
     createdAt?: boolean
+    isVerified?: boolean
+    aadharNumber?: boolean
+    isAadharVerified?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "isVerified" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "createdAt" | "isVerified" | "aadharNumber" | "isAadharVerified", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    vehicle?: boolean | User$vehicleArgs<ExtArgs>
-    ridesGiven?: boolean | User$ridesGivenArgs<ExtArgs>
     bookings?: boolean | User$bookingsArgs<ExtArgs>
     driverVerification?: boolean | User$driverVerificationArgs<ExtArgs>
     location?: boolean | User$locationArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    ridesGiven?: boolean | User$ridesGivenArgs<ExtArgs>
+    vehicle?: boolean | User$vehicleArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1853,12 +1875,12 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      vehicle: Prisma.$VehiclePayload<ExtArgs> | null
-      ridesGiven: Prisma.$RideGivenPayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
       driverVerification: Prisma.$DriverVerificationPayload<ExtArgs> | null
       location: Prisma.$LocationPayload<ExtArgs> | null
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      ridesGiven: Prisma.$RideGivenPayload<ExtArgs>[]
+      vehicle: Prisma.$VehiclePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1866,8 +1888,10 @@ export namespace Prisma {
       email: string
       password: string
       role: $Enums.UserRole
-      isVerified: boolean
       createdAt: Date
+      isVerified: boolean
+      aadharNumber: string | null
+      isAadharVerified: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2262,12 +2286,12 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    vehicle<T extends User$vehicleArgs<ExtArgs> = {}>(args?: Subset<T, User$vehicleArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    ridesGiven<T extends User$ridesGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$ridesGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RideGivenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     driverVerification<T extends User$driverVerificationArgs<ExtArgs> = {}>(args?: Subset<T, User$driverVerificationArgs<ExtArgs>>): Prisma__DriverVerificationClient<$Result.GetResult<Prisma.$DriverVerificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     location<T extends User$locationArgs<ExtArgs> = {}>(args?: Subset<T, User$locationArgs<ExtArgs>>): Prisma__LocationClient<$Result.GetResult<Prisma.$LocationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    ridesGiven<T extends User$ridesGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$ridesGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RideGivenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vehicle<T extends User$vehicleArgs<ExtArgs> = {}>(args?: Subset<T, User$vehicleArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2302,8 +2326,10 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
-    readonly isVerified: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly isVerified: FieldRef<"User", 'Boolean'>
+    readonly aadharNumber: FieldRef<"User", 'String'>
+    readonly isAadharVerified: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -2692,49 +2718,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.vehicle
-   */
-  export type User$vehicleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    where?: VehicleWhereInput
-  }
-
-  /**
-   * User.ridesGiven
-   */
-  export type User$ridesGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RideGiven
-     */
-    select?: RideGivenSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the RideGiven
-     */
-    omit?: RideGivenOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: RideGivenInclude<ExtArgs> | null
-    where?: RideGivenWhereInput
-    orderBy?: RideGivenOrderByWithRelationInput | RideGivenOrderByWithRelationInput[]
-    cursor?: RideGivenWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RideGivenScalarFieldEnum | RideGivenScalarFieldEnum[]
-  }
-
-  /**
    * User.bookings
    */
   export type User$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2818,6 +2801,49 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.ridesGiven
+   */
+  export type User$ridesGivenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RideGiven
+     */
+    select?: RideGivenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RideGiven
+     */
+    omit?: RideGivenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RideGivenInclude<ExtArgs> | null
+    where?: RideGivenWhereInput
+    orderBy?: RideGivenOrderByWithRelationInput | RideGivenOrderByWithRelationInput[]
+    cursor?: RideGivenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RideGivenScalarFieldEnum | RideGivenScalarFieldEnum[]
+  }
+
+  /**
+   * User.vehicle
+   */
+  export type User$vehicleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    where?: VehicleWhereInput
   }
 
   /**
@@ -4186,8 +4212,8 @@ export namespace Prisma {
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    driver?: boolean | UserDefaultArgs<ExtArgs>
     bookings?: boolean | RideGiven$bookingsArgs<ExtArgs>
+    driver?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | RideGivenCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rideGiven"]>
 
@@ -4234,8 +4260,8 @@ export namespace Prisma {
 
   export type RideGivenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "driverId" | "startLocation" | "endLocation" | "departureTime" | "availableSeats" | "price" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["rideGiven"]>
   export type RideGivenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    driver?: boolean | UserDefaultArgs<ExtArgs>
     bookings?: boolean | RideGiven$bookingsArgs<ExtArgs>
+    driver?: boolean | UserDefaultArgs<ExtArgs>
     _count?: boolean | RideGivenCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type RideGivenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4248,8 +4274,8 @@ export namespace Prisma {
   export type $RideGivenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "RideGiven"
     objects: {
-      driver: Prisma.$UserPayload<ExtArgs>
       bookings: Prisma.$BookingPayload<ExtArgs>[]
+      driver: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4656,8 +4682,8 @@ export namespace Prisma {
    */
   export interface Prisma__RideGivenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    driver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     bookings<T extends RideGiven$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, RideGiven$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    driver<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5159,30 +5185,30 @@ export namespace Prisma {
     id: string | null
     rideId: string | null
     passengerId: string | null
-    status: $Enums.RideStatus | null
     fare: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    status: $Enums.RideStatus | null
   }
 
   export type BookingMaxAggregateOutputType = {
     id: string | null
     rideId: string | null
     passengerId: string | null
-    status: $Enums.RideStatus | null
     fare: number | null
     createdAt: Date | null
     updatedAt: Date | null
+    status: $Enums.RideStatus | null
   }
 
   export type BookingCountAggregateOutputType = {
     id: number
     rideId: number
     passengerId: number
-    status: number
     fare: number
     createdAt: number
     updatedAt: number
+    status: number
     _all: number
   }
 
@@ -5199,30 +5225,30 @@ export namespace Prisma {
     id?: true
     rideId?: true
     passengerId?: true
-    status?: true
     fare?: true
     createdAt?: true
     updatedAt?: true
+    status?: true
   }
 
   export type BookingMaxAggregateInputType = {
     id?: true
     rideId?: true
     passengerId?: true
-    status?: true
     fare?: true
     createdAt?: true
     updatedAt?: true
+    status?: true
   }
 
   export type BookingCountAggregateInputType = {
     id?: true
     rideId?: true
     passengerId?: true
-    status?: true
     fare?: true
     createdAt?: true
     updatedAt?: true
+    status?: true
     _all?: true
   }
 
@@ -5316,10 +5342,10 @@ export namespace Prisma {
     id: string
     rideId: string
     passengerId: string
-    status: $Enums.RideStatus
     fare: number
     createdAt: Date
     updatedAt: Date
+    status: $Enums.RideStatus
     _count: BookingCountAggregateOutputType | null
     _avg: BookingAvgAggregateOutputType | null
     _sum: BookingSumAggregateOutputType | null
@@ -5345,79 +5371,79 @@ export namespace Prisma {
     id?: boolean
     rideId?: boolean
     passengerId?: boolean
-    status?: boolean
     fare?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
-    passenger?: boolean | UserDefaultArgs<ExtArgs>
+    status?: boolean
     baggage?: boolean | Booking$baggageArgs<ExtArgs>
+    passenger?: boolean | UserDefaultArgs<ExtArgs>
+    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     rideId?: boolean
     passengerId?: boolean
-    status?: boolean
     fare?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
+    status?: boolean
     passenger?: boolean | UserDefaultArgs<ExtArgs>
+    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     rideId?: boolean
     passengerId?: boolean
-    status?: boolean
     fare?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
+    status?: boolean
     passenger?: boolean | UserDefaultArgs<ExtArgs>
+    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
 
   export type BookingSelectScalar = {
     id?: boolean
     rideId?: boolean
     passengerId?: boolean
-    status?: boolean
     fare?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    status?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rideId" | "passengerId" | "status" | "fare" | "createdAt" | "updatedAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rideId" | "passengerId" | "fare" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
-    passenger?: boolean | UserDefaultArgs<ExtArgs>
     baggage?: boolean | Booking$baggageArgs<ExtArgs>
+    passenger?: boolean | UserDefaultArgs<ExtArgs>
+    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
     passenger?: boolean | UserDefaultArgs<ExtArgs>
+    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
   }
   export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
     passenger?: boolean | UserDefaultArgs<ExtArgs>
+    ride?: boolean | RideGivenDefaultArgs<ExtArgs>
   }
 
   export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Booking"
     objects: {
-      ride: Prisma.$RideGivenPayload<ExtArgs>
-      passenger: Prisma.$UserPayload<ExtArgs>
       baggage: Prisma.$BaggagePayload<ExtArgs> | null
+      passenger: Prisma.$UserPayload<ExtArgs>
+      ride: Prisma.$RideGivenPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       rideId: string
       passengerId: string
-      status: $Enums.RideStatus
       fare: number
       createdAt: Date
       updatedAt: Date
+      status: $Enums.RideStatus
     }, ExtArgs["result"]["booking"]>
     composites: {}
   }
@@ -5812,9 +5838,9 @@ export namespace Prisma {
    */
   export interface Prisma__BookingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    ride<T extends RideGivenDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RideGivenDefaultArgs<ExtArgs>>): Prisma__RideGivenClient<$Result.GetResult<Prisma.$RideGivenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    passenger<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     baggage<T extends Booking$baggageArgs<ExtArgs> = {}>(args?: Subset<T, Booking$baggageArgs<ExtArgs>>): Prisma__BaggageClient<$Result.GetResult<Prisma.$BaggagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    passenger<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    ride<T extends RideGivenDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RideGivenDefaultArgs<ExtArgs>>): Prisma__RideGivenClient<$Result.GetResult<Prisma.$RideGivenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5847,10 +5873,10 @@ export namespace Prisma {
     readonly id: FieldRef<"Booking", 'String'>
     readonly rideId: FieldRef<"Booking", 'String'>
     readonly passengerId: FieldRef<"Booking", 'String'>
-    readonly status: FieldRef<"Booking", 'RideStatus'>
     readonly fare: FieldRef<"Booking", 'Float'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
     readonly updatedAt: FieldRef<"Booking", 'DateTime'>
+    readonly status: FieldRef<"Booking", 'RideStatus'>
   }
     
 
@@ -10677,8 +10703,10 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     role: 'role',
+    createdAt: 'createdAt',
     isVerified: 'isVerified',
-    createdAt: 'createdAt'
+    aadharNumber: 'aadharNumber',
+    isAadharVerified: 'isAadharVerified'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -10716,10 +10744,10 @@ export namespace Prisma {
     id: 'id',
     rideId: 'rideId',
     passengerId: 'passengerId',
-    status: 'status',
     fare: 'fare',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    status: 'status'
   };
 
   export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
@@ -10832,13 +10860,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -10849,6 +10870,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -10906,14 +10934,16 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
-    isVerified?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
-    vehicle?: XOR<VehicleNullableScalarRelationFilter, VehicleWhereInput> | null
-    ridesGiven?: RideGivenListRelationFilter
+    isVerified?: BoolFilter<"User"> | boolean
+    aadharNumber?: StringNullableFilter<"User"> | string | null
+    isAadharVerified?: BoolFilter<"User"> | boolean
     bookings?: BookingListRelationFilter
     driverVerification?: XOR<DriverVerificationNullableScalarRelationFilter, DriverVerificationWhereInput> | null
     location?: XOR<LocationNullableScalarRelationFilter, LocationWhereInput> | null
     notifications?: NotificationListRelationFilter
+    ridesGiven?: RideGivenListRelationFilter
+    vehicle?: XOR<VehicleNullableScalarRelationFilter, VehicleWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10922,34 +10952,38 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    isVerified?: SortOrder
     createdAt?: SortOrder
-    vehicle?: VehicleOrderByWithRelationInput
-    ridesGiven?: RideGivenOrderByRelationAggregateInput
+    isVerified?: SortOrder
+    aadharNumber?: SortOrderInput | SortOrder
+    isAadharVerified?: SortOrder
     bookings?: BookingOrderByRelationAggregateInput
     driverVerification?: DriverVerificationOrderByWithRelationInput
     location?: LocationOrderByWithRelationInput
     notifications?: NotificationOrderByRelationAggregateInput
+    ridesGiven?: RideGivenOrderByRelationAggregateInput
+    vehicle?: VehicleOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    aadharNumber?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
-    isVerified?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
-    vehicle?: XOR<VehicleNullableScalarRelationFilter, VehicleWhereInput> | null
-    ridesGiven?: RideGivenListRelationFilter
+    isVerified?: BoolFilter<"User"> | boolean
+    isAadharVerified?: BoolFilter<"User"> | boolean
     bookings?: BookingListRelationFilter
     driverVerification?: XOR<DriverVerificationNullableScalarRelationFilter, DriverVerificationWhereInput> | null
     location?: XOR<LocationNullableScalarRelationFilter, LocationWhereInput> | null
     notifications?: NotificationListRelationFilter
-  }, "id" | "email">
+    ridesGiven?: RideGivenListRelationFilter
+    vehicle?: XOR<VehicleNullableScalarRelationFilter, VehicleWhereInput> | null
+  }, "id" | "email" | "aadharNumber">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -10957,8 +10991,10 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    isVerified?: SortOrder
     createdAt?: SortOrder
+    isVerified?: SortOrder
+    aadharNumber?: SortOrderInput | SortOrder
+    isAadharVerified?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -10973,8 +11009,10 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
-    isVerified?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    isVerified?: BoolWithAggregatesFilter<"User"> | boolean
+    aadharNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    isAadharVerified?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type VehicleWhereInput = {
@@ -11053,8 +11091,8 @@ export namespace Prisma {
     status?: EnumRideStatusFilter<"RideGiven"> | $Enums.RideStatus
     createdAt?: DateTimeFilter<"RideGiven"> | Date | string
     updatedAt?: DateTimeFilter<"RideGiven"> | Date | string
-    driver?: XOR<UserScalarRelationFilter, UserWhereInput>
     bookings?: BookingListRelationFilter
+    driver?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type RideGivenOrderByWithRelationInput = {
@@ -11068,8 +11106,8 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    driver?: UserOrderByWithRelationInput
     bookings?: BookingOrderByRelationAggregateInput
+    driver?: UserOrderByWithRelationInput
   }
 
   export type RideGivenWhereUniqueInput = Prisma.AtLeast<{
@@ -11086,8 +11124,8 @@ export namespace Prisma {
     status?: EnumRideStatusFilter<"RideGiven"> | $Enums.RideStatus
     createdAt?: DateTimeFilter<"RideGiven"> | Date | string
     updatedAt?: DateTimeFilter<"RideGiven"> | Date | string
-    driver?: XOR<UserScalarRelationFilter, UserWhereInput>
     bookings?: BookingListRelationFilter
+    driver?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type RideGivenOrderByWithAggregationInput = {
@@ -11131,26 +11169,26 @@ export namespace Prisma {
     id?: StringFilter<"Booking"> | string
     rideId?: StringFilter<"Booking"> | string
     passengerId?: StringFilter<"Booking"> | string
-    status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
     fare?: FloatFilter<"Booking"> | number
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
-    ride?: XOR<RideGivenScalarRelationFilter, RideGivenWhereInput>
-    passenger?: XOR<UserScalarRelationFilter, UserWhereInput>
+    status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
     baggage?: XOR<BaggageNullableScalarRelationFilter, BaggageWhereInput> | null
+    passenger?: XOR<UserScalarRelationFilter, UserWhereInput>
+    ride?: XOR<RideGivenScalarRelationFilter, RideGivenWhereInput>
   }
 
   export type BookingOrderByWithRelationInput = {
     id?: SortOrder
     rideId?: SortOrder
     passengerId?: SortOrder
-    status?: SortOrder
     fare?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ride?: RideGivenOrderByWithRelationInput
-    passenger?: UserOrderByWithRelationInput
+    status?: SortOrder
     baggage?: BaggageOrderByWithRelationInput
+    passenger?: UserOrderByWithRelationInput
+    ride?: RideGivenOrderByWithRelationInput
   }
 
   export type BookingWhereUniqueInput = Prisma.AtLeast<{
@@ -11160,23 +11198,23 @@ export namespace Prisma {
     NOT?: BookingWhereInput | BookingWhereInput[]
     rideId?: StringFilter<"Booking"> | string
     passengerId?: StringFilter<"Booking"> | string
-    status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
     fare?: FloatFilter<"Booking"> | number
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
-    ride?: XOR<RideGivenScalarRelationFilter, RideGivenWhereInput>
-    passenger?: XOR<UserScalarRelationFilter, UserWhereInput>
+    status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
     baggage?: XOR<BaggageNullableScalarRelationFilter, BaggageWhereInput> | null
+    passenger?: XOR<UserScalarRelationFilter, UserWhereInput>
+    ride?: XOR<RideGivenScalarRelationFilter, RideGivenWhereInput>
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
     id?: SortOrder
     rideId?: SortOrder
     passengerId?: SortOrder
-    status?: SortOrder
     fare?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
     _count?: BookingCountOrderByAggregateInput
     _avg?: BookingAvgOrderByAggregateInput
     _max?: BookingMaxOrderByAggregateInput
@@ -11191,10 +11229,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Booking"> | string
     rideId?: StringWithAggregatesFilter<"Booking"> | string
     passengerId?: StringWithAggregatesFilter<"Booking"> | string
-    status?: EnumRideStatusWithAggregatesFilter<"Booking"> | $Enums.RideStatus
     fare?: FloatWithAggregatesFilter<"Booking"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
+    status?: EnumRideStatusWithAggregatesFilter<"Booking"> | $Enums.RideStatus
   }
 
   export type BaggageWhereInput = {
@@ -11452,14 +11490,16 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    vehicle?: VehicleCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingCreateNestedManyWithoutPassengerInput
     driverVerification?: DriverVerificationCreateNestedOneWithoutUserInput
     location?: LocationCreateNestedOneWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11468,14 +11508,16 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingUncheckedCreateNestedManyWithoutPassengerInput
     driverVerification?: DriverVerificationUncheckedCreateNestedOneWithoutUserInput
     location?: LocationUncheckedCreateNestedOneWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -11484,14 +11526,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUpdateOneWithoutUserNestedInput
     location?: LocationUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11500,14 +11544,16 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUncheckedUpdateOneWithoutUserNestedInput
     location?: LocationUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11516,8 +11562,10 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -11526,8 +11574,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -11536,8 +11586,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type VehicleCreateInput = {
@@ -11612,8 +11664,8 @@ export namespace Prisma {
     status: $Enums.RideStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    driver: UserCreateNestedOneWithoutRidesGivenInput
     bookings?: BookingCreateNestedManyWithoutRideInput
+    driver: UserCreateNestedOneWithoutRidesGivenInput
   }
 
   export type RideGivenUncheckedCreateInput = {
@@ -11640,8 +11692,8 @@ export namespace Prisma {
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    driver?: UserUpdateOneRequiredWithoutRidesGivenNestedInput
     bookings?: BookingUpdateManyWithoutRideNestedInput
+    driver?: UserUpdateOneRequiredWithoutRidesGivenNestedInput
   }
 
   export type RideGivenUncheckedUpdateInput = {
@@ -11698,45 +11750,45 @@ export namespace Prisma {
 
   export type BookingCreateInput = {
     id?: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ride: RideGivenCreateNestedOneWithoutBookingsInput
-    passenger: UserCreateNestedOneWithoutBookingsInput
+    status: $Enums.RideStatus
     baggage?: BaggageCreateNestedOneWithoutBookingInput
+    passenger: UserCreateNestedOneWithoutBookingsInput
+    ride: RideGivenCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateInput = {
     id?: string
     rideId: string
     passengerId: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    status: $Enums.RideStatus
     baggage?: BaggageUncheckedCreateNestedOneWithoutBookingInput
   }
 
   export type BookingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ride?: RideGivenUpdateOneRequiredWithoutBookingsNestedInput
-    passenger?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     baggage?: BaggageUpdateOneWithoutBookingNestedInput
+    passenger?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    ride?: RideGivenUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     rideId?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     baggage?: BaggageUncheckedUpdateOneWithoutBookingNestedInput
   }
 
@@ -11744,28 +11796,28 @@ export namespace Prisma {
     id?: string
     rideId: string
     passengerId: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    status: $Enums.RideStatus
   }
 
   export type BookingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
   }
 
   export type BookingUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     rideId?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
   }
 
   export type BaggageCreateInput = {
@@ -12045,11 +12097,6 @@ export namespace Prisma {
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12061,15 +12108,24 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type VehicleNullableScalarRelationFilter = {
-    is?: VehicleWhereInput | null
-    isNot?: VehicleWhereInput | null
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type RideGivenListRelationFilter = {
-    every?: RideGivenWhereInput
-    some?: RideGivenWhereInput
-    none?: RideGivenWhereInput
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type BookingListRelationFilter = {
@@ -12094,8 +12150,20 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
-  export type RideGivenOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type RideGivenListRelationFilter = {
+    every?: RideGivenWhereInput
+    some?: RideGivenWhereInput
+    none?: RideGivenWhereInput
+  }
+
+  export type VehicleNullableScalarRelationFilter = {
+    is?: VehicleWhereInput | null
+    isNot?: VehicleWhereInput | null
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type BookingOrderByRelationAggregateInput = {
@@ -12106,14 +12174,20 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type RideGivenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    isVerified?: SortOrder
     createdAt?: SortOrder
+    isVerified?: SortOrder
+    aadharNumber?: SortOrder
+    isAadharVerified?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -12122,8 +12196,10 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    isVerified?: SortOrder
     createdAt?: SortOrder
+    isVerified?: SortOrder
+    aadharNumber?: SortOrder
+    isAadharVerified?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -12132,8 +12208,10 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    isVerified?: SortOrder
     createdAt?: SortOrder
+    isVerified?: SortOrder
+    aadharNumber?: SortOrder
+    isAadharVerified?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -12164,14 +12242,6 @@ export namespace Prisma {
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -12186,7 +12256,15 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -12198,7 +12276,10 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12215,11 +12296,6 @@ export namespace Prisma {
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type VehicleCountOrderByAggregateInput = {
@@ -12255,24 +12331,6 @@ export namespace Prisma {
 
   export type VehicleSumOrderByAggregateInput = {
     capacity?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -12384,24 +12442,24 @@ export namespace Prisma {
     _max?: NestedEnumRideStatusFilter<$PrismaModel>
   }
 
-  export type RideGivenScalarRelationFilter = {
-    is?: RideGivenWhereInput
-    isNot?: RideGivenWhereInput
-  }
-
   export type BaggageNullableScalarRelationFilter = {
     is?: BaggageWhereInput | null
     isNot?: BaggageWhereInput | null
+  }
+
+  export type RideGivenScalarRelationFilter = {
+    is?: RideGivenWhereInput
+    isNot?: RideGivenWhereInput
   }
 
   export type BookingCountOrderByAggregateInput = {
     id?: SortOrder
     rideId?: SortOrder
     passengerId?: SortOrder
-    status?: SortOrder
     fare?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
   }
 
   export type BookingAvgOrderByAggregateInput = {
@@ -12412,20 +12470,20 @@ export namespace Prisma {
     id?: SortOrder
     rideId?: SortOrder
     passengerId?: SortOrder
-    status?: SortOrder
     fare?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
   }
 
   export type BookingMinOrderByAggregateInput = {
     id?: SortOrder
     rideId?: SortOrder
     passengerId?: SortOrder
-    status?: SortOrder
     fare?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    status?: SortOrder
   }
 
   export type BookingSumOrderByAggregateInput = {
@@ -12568,19 +12626,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type VehicleCreateNestedOneWithoutUserInput = {
-    create?: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
-    connectOrCreate?: VehicleCreateOrConnectWithoutUserInput
-    connect?: VehicleWhereUniqueInput
-  }
-
-  export type RideGivenCreateNestedManyWithoutDriverInput = {
-    create?: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput> | RideGivenCreateWithoutDriverInput[] | RideGivenUncheckedCreateWithoutDriverInput[]
-    connectOrCreate?: RideGivenCreateOrConnectWithoutDriverInput | RideGivenCreateOrConnectWithoutDriverInput[]
-    createMany?: RideGivenCreateManyDriverInputEnvelope
-    connect?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
-  }
-
   export type BookingCreateNestedManyWithoutPassengerInput = {
     create?: XOR<BookingCreateWithoutPassengerInput, BookingUncheckedCreateWithoutPassengerInput> | BookingCreateWithoutPassengerInput[] | BookingUncheckedCreateWithoutPassengerInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutPassengerInput | BookingCreateOrConnectWithoutPassengerInput[]
@@ -12607,17 +12652,17 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
-  export type VehicleUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
-    connectOrCreate?: VehicleCreateOrConnectWithoutUserInput
-    connect?: VehicleWhereUniqueInput
-  }
-
-  export type RideGivenUncheckedCreateNestedManyWithoutDriverInput = {
+  export type RideGivenCreateNestedManyWithoutDriverInput = {
     create?: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput> | RideGivenCreateWithoutDriverInput[] | RideGivenUncheckedCreateWithoutDriverInput[]
     connectOrCreate?: RideGivenCreateOrConnectWithoutDriverInput | RideGivenCreateOrConnectWithoutDriverInput[]
     createMany?: RideGivenCreateManyDriverInputEnvelope
     connect?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
+  }
+
+  export type VehicleCreateNestedOneWithoutUserInput = {
+    create?: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutUserInput
+    connect?: VehicleWhereUniqueInput
   }
 
   export type BookingUncheckedCreateNestedManyWithoutPassengerInput = {
@@ -12646,6 +12691,19 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type RideGivenUncheckedCreateNestedManyWithoutDriverInput = {
+    create?: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput> | RideGivenCreateWithoutDriverInput[] | RideGivenUncheckedCreateWithoutDriverInput[]
+    connectOrCreate?: RideGivenCreateOrConnectWithoutDriverInput | RideGivenCreateOrConnectWithoutDriverInput[]
+    createMany?: RideGivenCreateManyDriverInputEnvelope
+    connect?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
+  }
+
+  export type VehicleUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutUserInput
+    connect?: VehicleWhereUniqueInput
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -12654,36 +12712,16 @@ export namespace Prisma {
     set?: $Enums.UserRole
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
 
-  export type VehicleUpdateOneWithoutUserNestedInput = {
-    create?: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
-    connectOrCreate?: VehicleCreateOrConnectWithoutUserInput
-    upsert?: VehicleUpsertWithoutUserInput
-    disconnect?: VehicleWhereInput | boolean
-    delete?: VehicleWhereInput | boolean
-    connect?: VehicleWhereUniqueInput
-    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutUserInput, VehicleUpdateWithoutUserInput>, VehicleUncheckedUpdateWithoutUserInput>
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
-  export type RideGivenUpdateManyWithoutDriverNestedInput = {
-    create?: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput> | RideGivenCreateWithoutDriverInput[] | RideGivenUncheckedCreateWithoutDriverInput[]
-    connectOrCreate?: RideGivenCreateOrConnectWithoutDriverInput | RideGivenCreateOrConnectWithoutDriverInput[]
-    upsert?: RideGivenUpsertWithWhereUniqueWithoutDriverInput | RideGivenUpsertWithWhereUniqueWithoutDriverInput[]
-    createMany?: RideGivenCreateManyDriverInputEnvelope
-    set?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
-    disconnect?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
-    delete?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
-    connect?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
-    update?: RideGivenUpdateWithWhereUniqueWithoutDriverInput | RideGivenUpdateWithWhereUniqueWithoutDriverInput[]
-    updateMany?: RideGivenUpdateManyWithWhereWithoutDriverInput | RideGivenUpdateManyWithWhereWithoutDriverInput[]
-    deleteMany?: RideGivenScalarWhereInput | RideGivenScalarWhereInput[]
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type BookingUpdateManyWithoutPassengerNestedInput = {
@@ -12734,17 +12772,7 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
-  export type VehicleUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
-    connectOrCreate?: VehicleCreateOrConnectWithoutUserInput
-    upsert?: VehicleUpsertWithoutUserInput
-    disconnect?: VehicleWhereInput | boolean
-    delete?: VehicleWhereInput | boolean
-    connect?: VehicleWhereUniqueInput
-    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutUserInput, VehicleUpdateWithoutUserInput>, VehicleUncheckedUpdateWithoutUserInput>
-  }
-
-  export type RideGivenUncheckedUpdateManyWithoutDriverNestedInput = {
+  export type RideGivenUpdateManyWithoutDriverNestedInput = {
     create?: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput> | RideGivenCreateWithoutDriverInput[] | RideGivenUncheckedCreateWithoutDriverInput[]
     connectOrCreate?: RideGivenCreateOrConnectWithoutDriverInput | RideGivenCreateOrConnectWithoutDriverInput[]
     upsert?: RideGivenUpsertWithWhereUniqueWithoutDriverInput | RideGivenUpsertWithWhereUniqueWithoutDriverInput[]
@@ -12756,6 +12784,16 @@ export namespace Prisma {
     update?: RideGivenUpdateWithWhereUniqueWithoutDriverInput | RideGivenUpdateWithWhereUniqueWithoutDriverInput[]
     updateMany?: RideGivenUpdateManyWithWhereWithoutDriverInput | RideGivenUpdateManyWithWhereWithoutDriverInput[]
     deleteMany?: RideGivenScalarWhereInput | RideGivenScalarWhereInput[]
+  }
+
+  export type VehicleUpdateOneWithoutUserNestedInput = {
+    create?: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutUserInput
+    upsert?: VehicleUpsertWithoutUserInput
+    disconnect?: VehicleWhereInput | boolean
+    delete?: VehicleWhereInput | boolean
+    connect?: VehicleWhereUniqueInput
+    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutUserInput, VehicleUpdateWithoutUserInput>, VehicleUncheckedUpdateWithoutUserInput>
   }
 
   export type BookingUncheckedUpdateManyWithoutPassengerNestedInput = {
@@ -12806,14 +12844,34 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type RideGivenUncheckedUpdateManyWithoutDriverNestedInput = {
+    create?: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput> | RideGivenCreateWithoutDriverInput[] | RideGivenUncheckedCreateWithoutDriverInput[]
+    connectOrCreate?: RideGivenCreateOrConnectWithoutDriverInput | RideGivenCreateOrConnectWithoutDriverInput[]
+    upsert?: RideGivenUpsertWithWhereUniqueWithoutDriverInput | RideGivenUpsertWithWhereUniqueWithoutDriverInput[]
+    createMany?: RideGivenCreateManyDriverInputEnvelope
+    set?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
+    disconnect?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
+    delete?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
+    connect?: RideGivenWhereUniqueInput | RideGivenWhereUniqueInput[]
+    update?: RideGivenUpdateWithWhereUniqueWithoutDriverInput | RideGivenUpdateWithWhereUniqueWithoutDriverInput[]
+    updateMany?: RideGivenUpdateManyWithWhereWithoutDriverInput | RideGivenUpdateManyWithWhereWithoutDriverInput[]
+    deleteMany?: RideGivenScalarWhereInput | RideGivenScalarWhereInput[]
+  }
+
+  export type VehicleUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutUserInput
+    upsert?: VehicleUpsertWithoutUserInput
+    disconnect?: VehicleWhereInput | boolean
+    delete?: VehicleWhereInput | boolean
+    connect?: VehicleWhereUniqueInput
+    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutUserInput, VehicleUpdateWithoutUserInput>, VehicleUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserCreateNestedOneWithoutVehicleInput = {
     create?: XOR<UserCreateWithoutVehicleInput, UserUncheckedCreateWithoutVehicleInput>
     connectOrCreate?: UserCreateOrConnectWithoutVehicleInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -12832,17 +12890,17 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVehicleInput, UserUpdateWithoutVehicleInput>, UserUncheckedUpdateWithoutVehicleInput>
   }
 
-  export type UserCreateNestedOneWithoutRidesGivenInput = {
-    create?: XOR<UserCreateWithoutRidesGivenInput, UserUncheckedCreateWithoutRidesGivenInput>
-    connectOrCreate?: UserCreateOrConnectWithoutRidesGivenInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type BookingCreateNestedManyWithoutRideInput = {
     create?: XOR<BookingCreateWithoutRideInput, BookingUncheckedCreateWithoutRideInput> | BookingCreateWithoutRideInput[] | BookingUncheckedCreateWithoutRideInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutRideInput | BookingCreateOrConnectWithoutRideInput[]
     createMany?: BookingCreateManyRideInputEnvelope
     connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedOneWithoutRidesGivenInput = {
+    create?: XOR<UserCreateWithoutRidesGivenInput, UserUncheckedCreateWithoutRidesGivenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRidesGivenInput
+    connect?: UserWhereUniqueInput
   }
 
   export type BookingUncheckedCreateNestedManyWithoutRideInput = {
@@ -12864,14 +12922,6 @@ export namespace Prisma {
     set?: $Enums.RideStatus
   }
 
-  export type UserUpdateOneRequiredWithoutRidesGivenNestedInput = {
-    create?: XOR<UserCreateWithoutRidesGivenInput, UserUncheckedCreateWithoutRidesGivenInput>
-    connectOrCreate?: UserCreateOrConnectWithoutRidesGivenInput
-    upsert?: UserUpsertWithoutRidesGivenInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRidesGivenInput, UserUpdateWithoutRidesGivenInput>, UserUncheckedUpdateWithoutRidesGivenInput>
-  }
-
   export type BookingUpdateManyWithoutRideNestedInput = {
     create?: XOR<BookingCreateWithoutRideInput, BookingUncheckedCreateWithoutRideInput> | BookingCreateWithoutRideInput[] | BookingUncheckedCreateWithoutRideInput[]
     connectOrCreate?: BookingCreateOrConnectWithoutRideInput | BookingCreateOrConnectWithoutRideInput[]
@@ -12884,6 +12934,14 @@ export namespace Prisma {
     update?: BookingUpdateWithWhereUniqueWithoutRideInput | BookingUpdateWithWhereUniqueWithoutRideInput[]
     updateMany?: BookingUpdateManyWithWhereWithoutRideInput | BookingUpdateManyWithWhereWithoutRideInput[]
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutRidesGivenNestedInput = {
+    create?: XOR<UserCreateWithoutRidesGivenInput, UserUncheckedCreateWithoutRidesGivenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRidesGivenInput
+    upsert?: UserUpsertWithoutRidesGivenInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRidesGivenInput, UserUpdateWithoutRidesGivenInput>, UserUncheckedUpdateWithoutRidesGivenInput>
   }
 
   export type BookingUncheckedUpdateManyWithoutRideNestedInput = {
@@ -12900,10 +12958,10 @@ export namespace Prisma {
     deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
-  export type RideGivenCreateNestedOneWithoutBookingsInput = {
-    create?: XOR<RideGivenCreateWithoutBookingsInput, RideGivenUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: RideGivenCreateOrConnectWithoutBookingsInput
-    connect?: RideGivenWhereUniqueInput
+  export type BaggageCreateNestedOneWithoutBookingInput = {
+    create?: XOR<BaggageCreateWithoutBookingInput, BaggageUncheckedCreateWithoutBookingInput>
+    connectOrCreate?: BaggageCreateOrConnectWithoutBookingInput
+    connect?: BaggageWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutBookingsInput = {
@@ -12912,32 +12970,16 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type BaggageCreateNestedOneWithoutBookingInput = {
-    create?: XOR<BaggageCreateWithoutBookingInput, BaggageUncheckedCreateWithoutBookingInput>
-    connectOrCreate?: BaggageCreateOrConnectWithoutBookingInput
-    connect?: BaggageWhereUniqueInput
+  export type RideGivenCreateNestedOneWithoutBookingsInput = {
+    create?: XOR<RideGivenCreateWithoutBookingsInput, RideGivenUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: RideGivenCreateOrConnectWithoutBookingsInput
+    connect?: RideGivenWhereUniqueInput
   }
 
   export type BaggageUncheckedCreateNestedOneWithoutBookingInput = {
     create?: XOR<BaggageCreateWithoutBookingInput, BaggageUncheckedCreateWithoutBookingInput>
     connectOrCreate?: BaggageCreateOrConnectWithoutBookingInput
     connect?: BaggageWhereUniqueInput
-  }
-
-  export type RideGivenUpdateOneRequiredWithoutBookingsNestedInput = {
-    create?: XOR<RideGivenCreateWithoutBookingsInput, RideGivenUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: RideGivenCreateOrConnectWithoutBookingsInput
-    upsert?: RideGivenUpsertWithoutBookingsInput
-    connect?: RideGivenWhereUniqueInput
-    update?: XOR<XOR<RideGivenUpdateToOneWithWhereWithoutBookingsInput, RideGivenUpdateWithoutBookingsInput>, RideGivenUncheckedUpdateWithoutBookingsInput>
-  }
-
-  export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
-    create?: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBookingsInput
-    upsert?: UserUpsertWithoutBookingsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBookingsInput, UserUpdateWithoutBookingsInput>, UserUncheckedUpdateWithoutBookingsInput>
   }
 
   export type BaggageUpdateOneWithoutBookingNestedInput = {
@@ -12948,6 +12990,22 @@ export namespace Prisma {
     delete?: BaggageWhereInput | boolean
     connect?: BaggageWhereUniqueInput
     update?: XOR<XOR<BaggageUpdateToOneWithWhereWithoutBookingInput, BaggageUpdateWithoutBookingInput>, BaggageUncheckedUpdateWithoutBookingInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
+    create?: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBookingsInput
+    upsert?: UserUpsertWithoutBookingsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBookingsInput, UserUpdateWithoutBookingsInput>, UserUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type RideGivenUpdateOneRequiredWithoutBookingsNestedInput = {
+    create?: XOR<RideGivenCreateWithoutBookingsInput, RideGivenUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: RideGivenCreateOrConnectWithoutBookingsInput
+    upsert?: RideGivenUpsertWithoutBookingsInput
+    connect?: RideGivenWhereUniqueInput
+    update?: XOR<XOR<RideGivenUpdateToOneWithWhereWithoutBookingsInput, RideGivenUpdateWithoutBookingsInput>, RideGivenUncheckedUpdateWithoutBookingsInput>
   }
 
   export type BaggageUncheckedUpdateOneWithoutBookingNestedInput = {
@@ -13037,11 +13095,6 @@ export namespace Prisma {
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13051,6 +13104,25 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -13091,14 +13163,6 @@ export namespace Prisma {
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13113,18 +13177,12 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13215,80 +13273,23 @@ export namespace Prisma {
     _max?: NestedEnumRideStatusFilter<$PrismaModel>
   }
 
-  export type VehicleCreateWithoutUserInput = {
-    id?: string
-    model: string
-    licenseNo: string
-    color?: string | null
-    capacity: number
-  }
-
-  export type VehicleUncheckedCreateWithoutUserInput = {
-    id?: string
-    model: string
-    licenseNo: string
-    color?: string | null
-    capacity: number
-  }
-
-  export type VehicleCreateOrConnectWithoutUserInput = {
-    where: VehicleWhereUniqueInput
-    create: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
-  }
-
-  export type RideGivenCreateWithoutDriverInput = {
-    id?: string
-    startLocation: string
-    endLocation: string
-    departureTime: Date | string
-    availableSeats: number
-    price: number
-    status: $Enums.RideStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    bookings?: BookingCreateNestedManyWithoutRideInput
-  }
-
-  export type RideGivenUncheckedCreateWithoutDriverInput = {
-    id?: string
-    startLocation: string
-    endLocation: string
-    departureTime: Date | string
-    availableSeats: number
-    price: number
-    status: $Enums.RideStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    bookings?: BookingUncheckedCreateNestedManyWithoutRideInput
-  }
-
-  export type RideGivenCreateOrConnectWithoutDriverInput = {
-    where: RideGivenWhereUniqueInput
-    create: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput>
-  }
-
-  export type RideGivenCreateManyDriverInputEnvelope = {
-    data: RideGivenCreateManyDriverInput | RideGivenCreateManyDriverInput[]
-    skipDuplicates?: boolean
-  }
-
   export type BookingCreateWithoutPassengerInput = {
     id?: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ride: RideGivenCreateNestedOneWithoutBookingsInput
+    status: $Enums.RideStatus
     baggage?: BaggageCreateNestedOneWithoutBookingInput
+    ride: RideGivenCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutPassengerInput = {
     id?: string
     rideId: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    status: $Enums.RideStatus
     baggage?: BaggageUncheckedCreateNestedOneWithoutBookingInput
   }
 
@@ -13376,63 +13377,61 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type VehicleUpsertWithoutUserInput = {
-    update: XOR<VehicleUpdateWithoutUserInput, VehicleUncheckedUpdateWithoutUserInput>
-    create: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
-    where?: VehicleWhereInput
+  export type RideGivenCreateWithoutDriverInput = {
+    id?: string
+    startLocation: string
+    endLocation: string
+    departureTime: Date | string
+    availableSeats: number
+    price: number
+    status: $Enums.RideStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bookings?: BookingCreateNestedManyWithoutRideInput
   }
 
-  export type VehicleUpdateToOneWithWhereWithoutUserInput = {
-    where?: VehicleWhereInput
-    data: XOR<VehicleUpdateWithoutUserInput, VehicleUncheckedUpdateWithoutUserInput>
+  export type RideGivenUncheckedCreateWithoutDriverInput = {
+    id?: string
+    startLocation: string
+    endLocation: string
+    departureTime: Date | string
+    availableSeats: number
+    price: number
+    status: $Enums.RideStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bookings?: BookingUncheckedCreateNestedManyWithoutRideInput
   }
 
-  export type VehicleUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    model?: StringFieldUpdateOperationsInput | string
-    licenseNo?: StringFieldUpdateOperationsInput | string
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    capacity?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type VehicleUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    model?: StringFieldUpdateOperationsInput | string
-    licenseNo?: StringFieldUpdateOperationsInput | string
-    color?: NullableStringFieldUpdateOperationsInput | string | null
-    capacity?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type RideGivenUpsertWithWhereUniqueWithoutDriverInput = {
+  export type RideGivenCreateOrConnectWithoutDriverInput = {
     where: RideGivenWhereUniqueInput
-    update: XOR<RideGivenUpdateWithoutDriverInput, RideGivenUncheckedUpdateWithoutDriverInput>
     create: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput>
   }
 
-  export type RideGivenUpdateWithWhereUniqueWithoutDriverInput = {
-    where: RideGivenWhereUniqueInput
-    data: XOR<RideGivenUpdateWithoutDriverInput, RideGivenUncheckedUpdateWithoutDriverInput>
+  export type RideGivenCreateManyDriverInputEnvelope = {
+    data: RideGivenCreateManyDriverInput | RideGivenCreateManyDriverInput[]
+    skipDuplicates?: boolean
   }
 
-  export type RideGivenUpdateManyWithWhereWithoutDriverInput = {
-    where: RideGivenScalarWhereInput
-    data: XOR<RideGivenUpdateManyMutationInput, RideGivenUncheckedUpdateManyWithoutDriverInput>
+  export type VehicleCreateWithoutUserInput = {
+    id?: string
+    model: string
+    licenseNo: string
+    color?: string | null
+    capacity: number
   }
 
-  export type RideGivenScalarWhereInput = {
-    AND?: RideGivenScalarWhereInput | RideGivenScalarWhereInput[]
-    OR?: RideGivenScalarWhereInput[]
-    NOT?: RideGivenScalarWhereInput | RideGivenScalarWhereInput[]
-    id?: StringFilter<"RideGiven"> | string
-    driverId?: StringFilter<"RideGiven"> | string
-    startLocation?: StringFilter<"RideGiven"> | string
-    endLocation?: StringFilter<"RideGiven"> | string
-    departureTime?: DateTimeFilter<"RideGiven"> | Date | string
-    availableSeats?: IntFilter<"RideGiven"> | number
-    price?: FloatFilter<"RideGiven"> | number
-    status?: EnumRideStatusFilter<"RideGiven"> | $Enums.RideStatus
-    createdAt?: DateTimeFilter<"RideGiven"> | Date | string
-    updatedAt?: DateTimeFilter<"RideGiven"> | Date | string
+  export type VehicleUncheckedCreateWithoutUserInput = {
+    id?: string
+    model: string
+    licenseNo: string
+    color?: string | null
+    capacity: number
+  }
+
+  export type VehicleCreateOrConnectWithoutUserInput = {
+    where: VehicleWhereUniqueInput
+    create: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
   }
 
   export type BookingUpsertWithWhereUniqueWithoutPassengerInput = {
@@ -13458,10 +13457,10 @@ export namespace Prisma {
     id?: StringFilter<"Booking"> | string
     rideId?: StringFilter<"Booking"> | string
     passengerId?: StringFilter<"Booking"> | string
-    status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
     fare?: FloatFilter<"Booking"> | number
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
+    status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
   }
 
   export type DriverVerificationUpsertWithoutUserInput = {
@@ -13552,19 +13551,80 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
+  export type RideGivenUpsertWithWhereUniqueWithoutDriverInput = {
+    where: RideGivenWhereUniqueInput
+    update: XOR<RideGivenUpdateWithoutDriverInput, RideGivenUncheckedUpdateWithoutDriverInput>
+    create: XOR<RideGivenCreateWithoutDriverInput, RideGivenUncheckedCreateWithoutDriverInput>
+  }
+
+  export type RideGivenUpdateWithWhereUniqueWithoutDriverInput = {
+    where: RideGivenWhereUniqueInput
+    data: XOR<RideGivenUpdateWithoutDriverInput, RideGivenUncheckedUpdateWithoutDriverInput>
+  }
+
+  export type RideGivenUpdateManyWithWhereWithoutDriverInput = {
+    where: RideGivenScalarWhereInput
+    data: XOR<RideGivenUpdateManyMutationInput, RideGivenUncheckedUpdateManyWithoutDriverInput>
+  }
+
+  export type RideGivenScalarWhereInput = {
+    AND?: RideGivenScalarWhereInput | RideGivenScalarWhereInput[]
+    OR?: RideGivenScalarWhereInput[]
+    NOT?: RideGivenScalarWhereInput | RideGivenScalarWhereInput[]
+    id?: StringFilter<"RideGiven"> | string
+    driverId?: StringFilter<"RideGiven"> | string
+    startLocation?: StringFilter<"RideGiven"> | string
+    endLocation?: StringFilter<"RideGiven"> | string
+    departureTime?: DateTimeFilter<"RideGiven"> | Date | string
+    availableSeats?: IntFilter<"RideGiven"> | number
+    price?: FloatFilter<"RideGiven"> | number
+    status?: EnumRideStatusFilter<"RideGiven"> | $Enums.RideStatus
+    createdAt?: DateTimeFilter<"RideGiven"> | Date | string
+    updatedAt?: DateTimeFilter<"RideGiven"> | Date | string
+  }
+
+  export type VehicleUpsertWithoutUserInput = {
+    update: XOR<VehicleUpdateWithoutUserInput, VehicleUncheckedUpdateWithoutUserInput>
+    create: XOR<VehicleCreateWithoutUserInput, VehicleUncheckedCreateWithoutUserInput>
+    where?: VehicleWhereInput
+  }
+
+  export type VehicleUpdateToOneWithWhereWithoutUserInput = {
+    where?: VehicleWhereInput
+    data: XOR<VehicleUpdateWithoutUserInput, VehicleUncheckedUpdateWithoutUserInput>
+  }
+
+  export type VehicleUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    licenseNo?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type VehicleUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    model?: StringFieldUpdateOperationsInput | string
+    licenseNo?: StringFieldUpdateOperationsInput | string
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    capacity?: IntFieldUpdateOperationsInput | number
+  }
+
   export type UserCreateWithoutVehicleInput = {
     id?: string
     name: string
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingCreateNestedManyWithoutPassengerInput
     driverVerification?: DriverVerificationCreateNestedOneWithoutUserInput
     location?: LocationCreateNestedOneWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
   }
 
   export type UserUncheckedCreateWithoutVehicleInput = {
@@ -13573,13 +13633,15 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingUncheckedCreateNestedManyWithoutPassengerInput
     driverVerification?: DriverVerificationUncheckedCreateNestedOneWithoutUserInput
     location?: LocationUncheckedCreateNestedOneWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
   }
 
   export type UserCreateOrConnectWithoutVehicleInput = {
@@ -13604,13 +13666,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUpdateOneWithoutUserNestedInput
     location?: LocationUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVehicleInput = {
@@ -13619,67 +13683,34 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUncheckedUpdateOneWithoutUserNestedInput
     location?: LocationUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserCreateWithoutRidesGivenInput = {
-    id?: string
-    name: string
-    email: string
-    password: string
-    role?: $Enums.UserRole
-    isVerified?: boolean
-    createdAt?: Date | string
-    vehicle?: VehicleCreateNestedOneWithoutUserInput
-    bookings?: BookingCreateNestedManyWithoutPassengerInput
-    driverVerification?: DriverVerificationCreateNestedOneWithoutUserInput
-    location?: LocationCreateNestedOneWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutRidesGivenInput = {
-    id?: string
-    name: string
-    email: string
-    password: string
-    role?: $Enums.UserRole
-    isVerified?: boolean
-    createdAt?: Date | string
-    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
-    bookings?: BookingUncheckedCreateNestedManyWithoutPassengerInput
-    driverVerification?: DriverVerificationUncheckedCreateNestedOneWithoutUserInput
-    location?: LocationUncheckedCreateNestedOneWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutRidesGivenInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutRidesGivenInput, UserUncheckedCreateWithoutRidesGivenInput>
+    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
   }
 
   export type BookingCreateWithoutRideInput = {
     id?: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    passenger: UserCreateNestedOneWithoutBookingsInput
+    status: $Enums.RideStatus
     baggage?: BaggageCreateNestedOneWithoutBookingInput
+    passenger: UserCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutRideInput = {
     id?: string
     passengerId: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    status: $Enums.RideStatus
     baggage?: BaggageUncheckedCreateNestedOneWithoutBookingInput
   }
 
@@ -13691,6 +13722,61 @@ export namespace Prisma {
   export type BookingCreateManyRideInputEnvelope = {
     data: BookingCreateManyRideInput | BookingCreateManyRideInput[]
     skipDuplicates?: boolean
+  }
+
+  export type UserCreateWithoutRidesGivenInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
+    bookings?: BookingCreateNestedManyWithoutPassengerInput
+    driverVerification?: DriverVerificationCreateNestedOneWithoutUserInput
+    location?: LocationCreateNestedOneWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    vehicle?: VehicleCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRidesGivenInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
+    bookings?: BookingUncheckedCreateNestedManyWithoutPassengerInput
+    driverVerification?: DriverVerificationUncheckedCreateNestedOneWithoutUserInput
+    location?: LocationUncheckedCreateNestedOneWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRidesGivenInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRidesGivenInput, UserUncheckedCreateWithoutRidesGivenInput>
+  }
+
+  export type BookingUpsertWithWhereUniqueWithoutRideInput = {
+    where: BookingWhereUniqueInput
+    update: XOR<BookingUpdateWithoutRideInput, BookingUncheckedUpdateWithoutRideInput>
+    create: XOR<BookingCreateWithoutRideInput, BookingUncheckedCreateWithoutRideInput>
+  }
+
+  export type BookingUpdateWithWhereUniqueWithoutRideInput = {
+    where: BookingWhereUniqueInput
+    data: XOR<BookingUpdateWithoutRideInput, BookingUncheckedUpdateWithoutRideInput>
+  }
+
+  export type BookingUpdateManyWithWhereWithoutRideInput = {
+    where: BookingScalarWhereInput
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutRideInput>
   }
 
   export type UserUpsertWithoutRidesGivenInput = {
@@ -13710,13 +13796,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUpdateOneWithoutUserNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUpdateOneWithoutUserNestedInput
     location?: LocationUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    vehicle?: VehicleUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRidesGivenInput = {
@@ -13725,29 +13813,71 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUncheckedUpdateOneWithoutUserNestedInput
     location?: LocationUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
   }
 
-  export type BookingUpsertWithWhereUniqueWithoutRideInput = {
-    where: BookingWhereUniqueInput
-    update: XOR<BookingUpdateWithoutRideInput, BookingUncheckedUpdateWithoutRideInput>
-    create: XOR<BookingCreateWithoutRideInput, BookingUncheckedCreateWithoutRideInput>
+  export type BaggageCreateWithoutBookingInput = {
+    id?: string
+    numberOfBags: number
+    totalWeight: number
   }
 
-  export type BookingUpdateWithWhereUniqueWithoutRideInput = {
-    where: BookingWhereUniqueInput
-    data: XOR<BookingUpdateWithoutRideInput, BookingUncheckedUpdateWithoutRideInput>
+  export type BaggageUncheckedCreateWithoutBookingInput = {
+    id?: string
+    numberOfBags: number
+    totalWeight: number
   }
 
-  export type BookingUpdateManyWithWhereWithoutRideInput = {
-    where: BookingScalarWhereInput
-    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutRideInput>
+  export type BaggageCreateOrConnectWithoutBookingInput = {
+    where: BaggageWhereUniqueInput
+    create: XOR<BaggageCreateWithoutBookingInput, BaggageUncheckedCreateWithoutBookingInput>
+  }
+
+  export type UserCreateWithoutBookingsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
+    driverVerification?: DriverVerificationCreateNestedOneWithoutUserInput
+    location?: LocationCreateNestedOneWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBookingsInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    role?: $Enums.UserRole
+    createdAt?: Date | string
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
+    driverVerification?: DriverVerificationUncheckedCreateNestedOneWithoutUserInput
+    location?: LocationUncheckedCreateNestedOneWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBookingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
   }
 
   export type RideGivenCreateWithoutBookingsInput = {
@@ -13781,56 +13911,72 @@ export namespace Prisma {
     create: XOR<RideGivenCreateWithoutBookingsInput, RideGivenUncheckedCreateWithoutBookingsInput>
   }
 
-  export type UserCreateWithoutBookingsInput = {
-    id?: string
-    name: string
-    email: string
-    password: string
-    role?: $Enums.UserRole
-    isVerified?: boolean
-    createdAt?: Date | string
-    vehicle?: VehicleCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
-    driverVerification?: DriverVerificationCreateNestedOneWithoutUserInput
-    location?: LocationCreateNestedOneWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutBookingsInput = {
-    id?: string
-    name: string
-    email: string
-    password: string
-    role?: $Enums.UserRole
-    isVerified?: boolean
-    createdAt?: Date | string
-    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
-    driverVerification?: DriverVerificationUncheckedCreateNestedOneWithoutUserInput
-    location?: LocationUncheckedCreateNestedOneWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutBookingsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
-  }
-
-  export type BaggageCreateWithoutBookingInput = {
-    id?: string
-    numberOfBags: number
-    totalWeight: number
-  }
-
-  export type BaggageUncheckedCreateWithoutBookingInput = {
-    id?: string
-    numberOfBags: number
-    totalWeight: number
-  }
-
-  export type BaggageCreateOrConnectWithoutBookingInput = {
-    where: BaggageWhereUniqueInput
+  export type BaggageUpsertWithoutBookingInput = {
+    update: XOR<BaggageUpdateWithoutBookingInput, BaggageUncheckedUpdateWithoutBookingInput>
     create: XOR<BaggageCreateWithoutBookingInput, BaggageUncheckedCreateWithoutBookingInput>
+    where?: BaggageWhereInput
+  }
+
+  export type BaggageUpdateToOneWithWhereWithoutBookingInput = {
+    where?: BaggageWhereInput
+    data: XOR<BaggageUpdateWithoutBookingInput, BaggageUncheckedUpdateWithoutBookingInput>
+  }
+
+  export type BaggageUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numberOfBags?: IntFieldUpdateOperationsInput | number
+    totalWeight?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type BaggageUncheckedUpdateWithoutBookingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numberOfBags?: IntFieldUpdateOperationsInput | number
+    totalWeight?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type UserUpsertWithoutBookingsInput = {
+    update: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
+    create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBookingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type UserUpdateWithoutBookingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
+    driverVerification?: DriverVerificationUpdateOneWithoutUserNestedInput
+    location?: LocationUpdateOneWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBookingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
+    driverVerification?: DriverVerificationUncheckedUpdateOneWithoutUserNestedInput
+    location?: LocationUncheckedUpdateOneWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type RideGivenUpsertWithoutBookingsInput = {
@@ -13870,88 +14016,24 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UserUpsertWithoutBookingsInput = {
-    update: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
-    create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutBookingsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
-  }
-
-  export type UserUpdateWithoutBookingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
-    driverVerification?: DriverVerificationUpdateOneWithoutUserNestedInput
-    location?: LocationUpdateOneWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutBookingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
-    driverVerification?: DriverVerificationUncheckedUpdateOneWithoutUserNestedInput
-    location?: LocationUncheckedUpdateOneWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type BaggageUpsertWithoutBookingInput = {
-    update: XOR<BaggageUpdateWithoutBookingInput, BaggageUncheckedUpdateWithoutBookingInput>
-    create: XOR<BaggageCreateWithoutBookingInput, BaggageUncheckedCreateWithoutBookingInput>
-    where?: BaggageWhereInput
-  }
-
-  export type BaggageUpdateToOneWithWhereWithoutBookingInput = {
-    where?: BaggageWhereInput
-    data: XOR<BaggageUpdateWithoutBookingInput, BaggageUncheckedUpdateWithoutBookingInput>
-  }
-
-  export type BaggageUpdateWithoutBookingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    numberOfBags?: IntFieldUpdateOperationsInput | number
-    totalWeight?: FloatFieldUpdateOperationsInput | number
-  }
-
-  export type BaggageUncheckedUpdateWithoutBookingInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    numberOfBags?: IntFieldUpdateOperationsInput | number
-    totalWeight?: FloatFieldUpdateOperationsInput | number
-  }
-
   export type BookingCreateWithoutBaggageInput = {
     id?: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    ride: RideGivenCreateNestedOneWithoutBookingsInput
+    status: $Enums.RideStatus
     passenger: UserCreateNestedOneWithoutBookingsInput
+    ride: RideGivenCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutBaggageInput = {
     id?: string
     rideId: string
     passengerId: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    status: $Enums.RideStatus
   }
 
   export type BookingCreateOrConnectWithoutBaggageInput = {
@@ -13972,22 +14054,22 @@ export namespace Prisma {
 
   export type BookingUpdateWithoutBaggageInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ride?: RideGivenUpdateOneRequiredWithoutBookingsNestedInput
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     passenger?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    ride?: RideGivenUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutBaggageInput = {
     id?: StringFieldUpdateOperationsInput | string
     rideId?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
   }
 
   export type UserCreateWithoutDriverVerificationInput = {
@@ -13996,13 +14078,15 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    vehicle?: VehicleCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingCreateNestedManyWithoutPassengerInput
     location?: LocationCreateNestedOneWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDriverVerificationInput = {
@@ -14011,13 +14095,15 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingUncheckedCreateNestedManyWithoutPassengerInput
     location?: LocationUncheckedCreateNestedOneWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDriverVerificationInput = {
@@ -14042,13 +14128,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUpdateManyWithoutPassengerNestedInput
     location?: LocationUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDriverVerificationInput = {
@@ -14057,13 +14145,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutPassengerNestedInput
     location?: LocationUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLocationInput = {
@@ -14072,13 +14162,15 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    vehicle?: VehicleCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingCreateNestedManyWithoutPassengerInput
     driverVerification?: DriverVerificationCreateNestedOneWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLocationInput = {
@@ -14087,13 +14179,15 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingUncheckedCreateNestedManyWithoutPassengerInput
     driverVerification?: DriverVerificationUncheckedCreateNestedOneWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLocationInput = {
@@ -14118,13 +14212,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUpdateOneWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLocationInput = {
@@ -14133,13 +14229,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUncheckedUpdateOneWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -14148,13 +14246,15 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    vehicle?: VehicleCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingCreateNestedManyWithoutPassengerInput
     driverVerification?: DriverVerificationCreateNestedOneWithoutUserInput
     location?: LocationCreateNestedOneWithoutUserInput
+    ridesGiven?: RideGivenCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -14163,13 +14263,15 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.UserRole
-    isVerified?: boolean
     createdAt?: Date | string
-    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
-    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    isVerified?: boolean
+    aadharNumber?: string | null
+    isAadharVerified?: boolean
     bookings?: BookingUncheckedCreateNestedManyWithoutPassengerInput
     driverVerification?: DriverVerificationUncheckedCreateNestedOneWithoutUserInput
     location?: LocationUncheckedCreateNestedOneWithoutUserInput
+    ridesGiven?: RideGivenUncheckedCreateNestedManyWithoutDriverInput
+    vehicle?: VehicleUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -14194,13 +14296,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUpdateOneWithoutUserNestedInput
     location?: LocationUpdateOneWithoutUserNestedInput
+    ridesGiven?: RideGivenUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -14209,13 +14313,32 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    isVerified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
-    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    aadharNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isAadharVerified?: BoolFieldUpdateOperationsInput | boolean
     bookings?: BookingUncheckedUpdateManyWithoutPassengerNestedInput
     driverVerification?: DriverVerificationUncheckedUpdateOneWithoutUserNestedInput
     location?: LocationUncheckedUpdateOneWithoutUserNestedInput
+    ridesGiven?: RideGivenUncheckedUpdateManyWithoutDriverNestedInput
+    vehicle?: VehicleUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type BookingCreateManyPassengerInput = {
+    id?: string
+    rideId: string
+    fare: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    status: $Enums.RideStatus
+  }
+
+  export type NotificationCreateManyUserInput = {
+    id?: string
+    type: string
+    message: string
+    read?: boolean
+    createdAt?: Date | string
   }
 
   export type RideGivenCreateManyDriverInput = {
@@ -14230,21 +14353,57 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type BookingCreateManyPassengerInput = {
-    id?: string
-    rideId: string
-    status: $Enums.RideStatus
-    fare: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+  export type BookingUpdateWithoutPassengerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fare?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    baggage?: BaggageUpdateOneWithoutBookingNestedInput
+    ride?: RideGivenUpdateOneRequiredWithoutBookingsNestedInput
   }
 
-  export type NotificationCreateManyUserInput = {
-    id?: string
-    type: string
-    message: string
-    read?: boolean
-    createdAt?: Date | string
+  export type BookingUncheckedUpdateWithoutPassengerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rideId?: StringFieldUpdateOperationsInput | string
+    fare?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+    baggage?: BaggageUncheckedUpdateOneWithoutBookingNestedInput
+  }
+
+  export type BookingUncheckedUpdateManyWithoutPassengerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    rideId?: StringFieldUpdateOperationsInput | string
+    fare?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
+  }
+
+  export type NotificationUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RideGivenUpdateWithoutDriverInput = {
@@ -14285,95 +14444,42 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BookingUpdateWithoutPassengerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
-    fare?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ride?: RideGivenUpdateOneRequiredWithoutBookingsNestedInput
-    baggage?: BaggageUpdateOneWithoutBookingNestedInput
-  }
-
-  export type BookingUncheckedUpdateWithoutPassengerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    rideId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
-    fare?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    baggage?: BaggageUncheckedUpdateOneWithoutBookingNestedInput
-  }
-
-  export type BookingUncheckedUpdateManyWithoutPassengerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    rideId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
-    fare?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    read?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    read?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    type?: StringFieldUpdateOperationsInput | string
-    message?: StringFieldUpdateOperationsInput | string
-    read?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type BookingCreateManyRideInput = {
     id?: string
     passengerId: string
-    status: $Enums.RideStatus
     fare: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    status: $Enums.RideStatus
   }
 
   export type BookingUpdateWithoutRideInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    passenger?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     baggage?: BaggageUpdateOneWithoutBookingNestedInput
+    passenger?: UserUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutRideInput = {
     id?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     baggage?: BaggageUncheckedUpdateOneWithoutBookingNestedInput
   }
 
   export type BookingUncheckedUpdateManyWithoutRideInput = {
     id?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
-    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
     fare?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
   }
 
 
