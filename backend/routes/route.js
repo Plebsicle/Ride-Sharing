@@ -8,7 +8,7 @@ import {
   getVerificationStatus,
   approveVerification
 } from '../controllers/DriverVerify.js';
-
+import { createRide } from '../controllers/CreateRide.js';
 // 🔐 Auth Routes
 router.post('/register', register);
 router.post('/login', login);
@@ -22,4 +22,7 @@ router.post('/verification', submitVerification);
 router.get('/verification/:userId', authenticate, getVerificationStatus);
 router.put('/verification/approve/:verificationId', authenticate, approveVerification);
 
+
+//create ride
+router.post('/create-ride', createRide);
 export default router;
