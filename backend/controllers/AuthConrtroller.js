@@ -12,15 +12,18 @@ const otpStore = new Map();
  * Register a new user (Passenger or Driver)
  * Sends OTP to user's email after registration
  */
-// Register a new user (Passenger or Driver)
-// Sends OTP to user's email after registration
 export const register = async (req, res) => {
-    const { name, email, password, role } = req.body;
+    const { name, email, password, role, aadharNumber } = req.body;
   
     try {
       // Check if the user already exists
       const existingUser = await prisma.user.findUnique({ where: { email } });
       if (existingUser) return res.status(400).json({ error: 'User already exists' });
+
+      // Check if Aadhar number is provided for verification
+      if (!aadharNumber) {
+        return res.status(400).json({ error: 'Aadhar number is required for identity verification' });
+      }
   
       // Hash the password
       const hashedPassword = await bcrypt.hash(password, 10);
@@ -32,7 +35,9 @@ export const register = async (req, res) => {
           email,
           password: hashedPassword,
           role: role === 'DRIVER' ? 'DRIVER' : 'PASSENGER',
-          isVerified: false,  // Initial state, needs to be verified via OTP
+          isVerified: false,
+          aadharNumber,
+          isAadharVerified: false, // Admin will verify this later
         },
       });
   
@@ -45,7 +50,7 @@ export const register = async (req, res) => {
   
       // Respond with success message
       res.status(201).json({
-        message: 'User registered successfully. OTP sent to email.',
+        message: 'User registered successfully. OTP sent to email. Your account is pending Aadhar verification.',
         user: { id: user.id, email: user.email },
       });
     } catch (err) {
@@ -53,7 +58,6 @@ export const register = async (req, res) => {
       res.status(500).json({ error: 'Registration failed' });
     }
   };
-  
 
 /**
  * Login a verified user
@@ -63,6 +67,7 @@ export const login = async (req, res) => {
 
   try {
     const user = await prisma.user.findUnique({ where: { email } });
+
     if (!user) return res.status(404).json({ error: 'User not found' });
 
     const isMatch = await bcrypt.compare(password, user.password);
