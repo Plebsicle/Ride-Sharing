@@ -4,7 +4,7 @@ const router = Router();
 import { register, login, sendOtpToUser, verifyOtp } from '../controllers/AuthConrtroller.js';
 import { authenticate } from '../middleware/auth.js';
 
-
+import { getAllRides } from '../controllers/CreateRide.js';
 import { createRide } from '../controllers/CreateRide.js';
 
 import {
@@ -27,7 +27,7 @@ router.post('/verify-otp', verifyOtp);
 
 
 router.post('/create-ride', createRide);
-
+router.get('/rides', getAllRides);
 // 📦 Booking Routes
 router.post('/bookings', createBooking);
 router.get('/bookings', authenticate, getAllBookings);

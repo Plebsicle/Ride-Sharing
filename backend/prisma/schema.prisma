@@ -31,7 +31,7 @@ model Vehicle {
   userId    String  @unique
   model     String
   licenseNo String  @unique
-  color     String?
+  color     String
   capacity  Int
   user      User    @relation(fields: [userId], references: [id])
 }
@@ -56,6 +56,8 @@ model Booking {
   rideId      String
   passengerId String
   fare        Float
+  pickupTime DateTime
+  pickupLocation String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   status      RideStatus
@@ -75,7 +77,7 @@ model Baggage {
 model DriverVerification {
   id          String   @id @default(uuid())
   userId      String   @unique
-  documentUrl String
+  documentNumber String
   uploadedAt  DateTime @default(now())
   user        User     @relation(fields: [userId], references: [id])
 }

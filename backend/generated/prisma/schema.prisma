@@ -27,13 +27,13 @@ model User {
 }
 
 model Vehicle {
-  id        String  @id @default(uuid())
-  userId    String  @unique
+  id        String @id @default(uuid())
+  userId    String @unique
   model     String
-  licenseNo String  @unique
-  color     String?
+  licenseNo String @unique
+  color     String
   capacity  Int
-  user      User    @relation(fields: [userId], references: [id])
+  user      User   @relation(fields: [userId], references: [id])
 }
 
 model RideGiven {
@@ -52,16 +52,18 @@ model RideGiven {
 }
 
 model Booking {
-  id          String     @id @default(uuid())
-  rideId      String
-  passengerId String
-  fare        Float
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  status      RideStatus
-  baggage     Baggage?
-  passenger   User       @relation("PassengerBookings", fields: [passengerId], references: [id])
-  ride        RideGiven  @relation(fields: [rideId], references: [id])
+  id             String     @id @default(uuid())
+  rideId         String
+  passengerId    String
+  fare           Float
+  pickupTime     DateTime
+  pickupLocation String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  status         RideStatus
+  baggage        Baggage?
+  passenger      User       @relation("PassengerBookings", fields: [passengerId], references: [id])
+  ride           RideGiven  @relation(fields: [rideId], references: [id])
 }
 
 model Baggage {
@@ -73,11 +75,11 @@ model Baggage {
 }
 
 model DriverVerification {
-  id          String   @id @default(uuid())
-  userId      String   @unique
-  documentUrl String
-  uploadedAt  DateTime @default(now())
-  user        User     @relation(fields: [userId], references: [id])
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  documentNumber String
+  uploadedAt     DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id])
 }
 
 model Location {
