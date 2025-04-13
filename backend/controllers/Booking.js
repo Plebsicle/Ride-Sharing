@@ -50,7 +50,7 @@ export const createBooking = async (req, res) => {
         fare,
         Location:pickupLocation,  // Changed from pickupLocation to Location
         Time: pickupTime, // Now "Time" is a string
-        status: 'BOOKED',
+        status: 'Pending',
       },
       include: {
         ride: true,

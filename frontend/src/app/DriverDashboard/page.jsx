@@ -23,7 +23,7 @@ export default function DriverDashboard() {
   };
 
   const handleCreateRide = () => {
-    router.push('/create-ride');
+    router.push('/CreateRide');
   };
 
   return (
