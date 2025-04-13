@@ -86,7 +86,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <div
             className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow cursor-pointer"
-            onClick={() => (window.location.href = '/book-ride')}
+            onClick={() => (window.location.href = '/Booking')}
           >
             <div className="flex items-center space-x-4">
               <div className="bg-green-100 p-3 rounded-full">

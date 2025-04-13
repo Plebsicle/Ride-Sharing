@@ -5186,6 +5186,8 @@ export namespace Prisma {
     rideId: string | null
     passengerId: string | null
     fare: number | null
+    PickupTime: Date | null
+    PickupLocation: string | null
     createdAt: Date | null
     updatedAt: Date | null
     status: $Enums.RideStatus | null
@@ -5196,6 +5198,8 @@ export namespace Prisma {
     rideId: string | null
     passengerId: string | null
     fare: number | null
+    PickupTime: Date | null
+    PickupLocation: string | null
     createdAt: Date | null
     updatedAt: Date | null
     status: $Enums.RideStatus | null
@@ -5206,6 +5210,8 @@ export namespace Prisma {
     rideId: number
     passengerId: number
     fare: number
+    PickupTime: number
+    PickupLocation: number
     createdAt: number
     updatedAt: number
     status: number
@@ -5226,6 +5232,8 @@ export namespace Prisma {
     rideId?: true
     passengerId?: true
     fare?: true
+    PickupTime?: true
+    PickupLocation?: true
     createdAt?: true
     updatedAt?: true
     status?: true
@@ -5236,6 +5244,8 @@ export namespace Prisma {
     rideId?: true
     passengerId?: true
     fare?: true
+    PickupTime?: true
+    PickupLocation?: true
     createdAt?: true
     updatedAt?: true
     status?: true
@@ -5246,6 +5256,8 @@ export namespace Prisma {
     rideId?: true
     passengerId?: true
     fare?: true
+    PickupTime?: true
+    PickupLocation?: true
     createdAt?: true
     updatedAt?: true
     status?: true
@@ -5343,6 +5355,8 @@ export namespace Prisma {
     rideId: string
     passengerId: string
     fare: number
+    PickupTime: Date
+    PickupLocation: string
     createdAt: Date
     updatedAt: Date
     status: $Enums.RideStatus
@@ -5372,6 +5386,8 @@ export namespace Prisma {
     rideId?: boolean
     passengerId?: boolean
     fare?: boolean
+    PickupTime?: boolean
+    PickupLocation?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
@@ -5385,6 +5401,8 @@ export namespace Prisma {
     rideId?: boolean
     passengerId?: boolean
     fare?: boolean
+    PickupTime?: boolean
+    PickupLocation?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
@@ -5397,6 +5415,8 @@ export namespace Prisma {
     rideId?: boolean
     passengerId?: boolean
     fare?: boolean
+    PickupTime?: boolean
+    PickupLocation?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
@@ -5409,12 +5429,14 @@ export namespace Prisma {
     rideId?: boolean
     passengerId?: boolean
     fare?: boolean
+    PickupTime?: boolean
+    PickupLocation?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     status?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rideId" | "passengerId" | "fare" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "rideId" | "passengerId" | "fare" | "PickupTime" | "PickupLocation" | "createdAt" | "updatedAt" | "status", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     baggage?: boolean | Booking$baggageArgs<ExtArgs>
     passenger?: boolean | UserDefaultArgs<ExtArgs>
@@ -5441,6 +5463,8 @@ export namespace Prisma {
       rideId: string
       passengerId: string
       fare: number
+      PickupTime: Date
+      PickupLocation: string
       createdAt: Date
       updatedAt: Date
       status: $Enums.RideStatus
@@ -5874,6 +5898,8 @@ export namespace Prisma {
     readonly rideId: FieldRef<"Booking", 'String'>
     readonly passengerId: FieldRef<"Booking", 'String'>
     readonly fare: FieldRef<"Booking", 'Float'>
+    readonly PickupTime: FieldRef<"Booking", 'DateTime'>
+    readonly PickupLocation: FieldRef<"Booking", 'String'>
     readonly createdAt: FieldRef<"Booking", 'DateTime'>
     readonly updatedAt: FieldRef<"Booking", 'DateTime'>
     readonly status: FieldRef<"Booking", 'RideStatus'>
@@ -10732,6 +10758,8 @@ export namespace Prisma {
     rideId: 'rideId',
     passengerId: 'passengerId',
     fare: 'fare',
+    PickupTime: 'PickupTime',
+    PickupLocation: 'PickupLocation',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     status: 'status'
@@ -11156,6 +11184,8 @@ export namespace Prisma {
     rideId?: StringFilter<"Booking"> | string
     passengerId?: StringFilter<"Booking"> | string
     fare?: FloatFilter<"Booking"> | number
+    PickupTime?: DateTimeFilter<"Booking"> | Date | string
+    PickupLocation?: StringFilter<"Booking"> | string
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
     status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
@@ -11169,6 +11199,8 @@ export namespace Prisma {
     rideId?: SortOrder
     passengerId?: SortOrder
     fare?: SortOrder
+    PickupTime?: SortOrder
+    PickupLocation?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -11185,6 +11217,8 @@ export namespace Prisma {
     rideId?: StringFilter<"Booking"> | string
     passengerId?: StringFilter<"Booking"> | string
     fare?: FloatFilter<"Booking"> | number
+    PickupTime?: DateTimeFilter<"Booking"> | Date | string
+    PickupLocation?: StringFilter<"Booking"> | string
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
     status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
@@ -11198,6 +11232,8 @@ export namespace Prisma {
     rideId?: SortOrder
     passengerId?: SortOrder
     fare?: SortOrder
+    PickupTime?: SortOrder
+    PickupLocation?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -11216,6 +11252,8 @@ export namespace Prisma {
     rideId?: StringWithAggregatesFilter<"Booking"> | string
     passengerId?: StringWithAggregatesFilter<"Booking"> | string
     fare?: FloatWithAggregatesFilter<"Booking"> | number
+    PickupTime?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
+    PickupLocation?: StringWithAggregatesFilter<"Booking"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
     status?: EnumRideStatusWithAggregatesFilter<"Booking"> | $Enums.RideStatus
@@ -11732,6 +11770,8 @@ export namespace Prisma {
   export type BookingCreateInput = {
     id?: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -11745,6 +11785,8 @@ export namespace Prisma {
     rideId: string
     passengerId: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -11754,6 +11796,8 @@ export namespace Prisma {
   export type BookingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -11767,6 +11811,8 @@ export namespace Prisma {
     rideId?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -11778,6 +11824,8 @@ export namespace Prisma {
     rideId: string
     passengerId: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -11786,6 +11834,8 @@ export namespace Prisma {
   export type BookingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -11796,6 +11846,8 @@ export namespace Prisma {
     rideId?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -12431,6 +12483,8 @@ export namespace Prisma {
     rideId?: SortOrder
     passengerId?: SortOrder
     fare?: SortOrder
+    PickupTime?: SortOrder
+    PickupLocation?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -12445,6 +12499,8 @@ export namespace Prisma {
     rideId?: SortOrder
     passengerId?: SortOrder
     fare?: SortOrder
+    PickupTime?: SortOrder
+    PickupLocation?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -12455,6 +12511,8 @@ export namespace Prisma {
     rideId?: SortOrder
     passengerId?: SortOrder
     fare?: SortOrder
+    PickupTime?: SortOrder
+    PickupLocation?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     status?: SortOrder
@@ -13247,6 +13305,8 @@ export namespace Prisma {
   export type BookingCreateWithoutPassengerInput = {
     id?: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -13258,6 +13318,8 @@ export namespace Prisma {
     id?: string
     rideId: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -13427,6 +13489,8 @@ export namespace Prisma {
     rideId?: StringFilter<"Booking"> | string
     passengerId?: StringFilter<"Booking"> | string
     fare?: FloatFilter<"Booking"> | number
+    PickupTime?: DateTimeFilter<"Booking"> | Date | string
+    PickupLocation?: StringFilter<"Booking"> | string
     createdAt?: DateTimeFilter<"Booking"> | Date | string
     updatedAt?: DateTimeFilter<"Booking"> | Date | string
     status?: EnumRideStatusFilter<"Booking"> | $Enums.RideStatus
@@ -13664,6 +13728,8 @@ export namespace Prisma {
   export type BookingCreateWithoutRideInput = {
     id?: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -13675,6 +13741,8 @@ export namespace Prisma {
     id?: string
     passengerId: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -13986,6 +14054,8 @@ export namespace Prisma {
   export type BookingCreateWithoutBaggageInput = {
     id?: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -13998,6 +14068,8 @@ export namespace Prisma {
     rideId: string
     passengerId: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -14022,6 +14094,8 @@ export namespace Prisma {
   export type BookingUpdateWithoutBaggageInput = {
     id?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -14034,6 +14108,8 @@ export namespace Prisma {
     rideId?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -14295,6 +14371,8 @@ export namespace Prisma {
     id?: string
     rideId: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -14323,6 +14401,8 @@ export namespace Prisma {
   export type BookingUpdateWithoutPassengerInput = {
     id?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -14334,6 +14414,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     rideId?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -14344,6 +14426,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     rideId?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -14415,6 +14499,8 @@ export namespace Prisma {
     id?: string
     passengerId: string
     fare: number
+    PickupTime: Date | string
+    PickupLocation: string
     createdAt?: Date | string
     updatedAt?: Date | string
     status: $Enums.RideStatus
@@ -14423,6 +14509,8 @@ export namespace Prisma {
   export type BookingUpdateWithoutRideInput = {
     id?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -14434,6 +14522,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
@@ -14444,6 +14534,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     passengerId?: StringFieldUpdateOperationsInput | string
     fare?: FloatFieldUpdateOperationsInput | number
+    PickupTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    PickupLocation?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumRideStatusFieldUpdateOperationsInput | $Enums.RideStatus
