@@ -4,8 +4,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
 // Middleware to protect routes and verify the JWT token
 export const authenticate = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Get token from Authorization header
-
+  const token = req.headers.authorization?.split(' ')[1]; 
   if (!token) {
     return res.status(401).json({ error: 'Access denied, no token provided' });
   }

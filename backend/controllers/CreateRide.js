@@ -85,7 +85,7 @@ export const createRide = async (req, res) => {
 
 export const getAllRides = async (req, res) => {
   try {
-    const { destination } = req.body; // Or req.query if using GET
+    const { destination } = req.params; // Or req.query if using GET
     console.log("Destination filter:", destination);
 
     const rides = await prisma.rideGiven.findMany({

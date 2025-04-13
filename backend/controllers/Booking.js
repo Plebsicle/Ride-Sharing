@@ -4,7 +4,7 @@ import prisma from '../config/db.config.js';
  * Create a new booking
  */
 export const createBooking = async (req, res) => {
-    const { rideId, passengerId, baggageDetails, status, fare } = req.body;
+    const { rideId, passengerId, baggageDetails, status } = req.body;
   
     try {
       // Create the booking along with baggage details if provided

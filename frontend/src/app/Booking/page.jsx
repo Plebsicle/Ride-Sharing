@@ -1,101 +1,76 @@
-'use client';
+"use client";
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 
-const BookRide = () => {
-  const [rideId, setRideId] = useState('');
-  const [passengerId, setPassengerId] = useState('');
-  const [fare, setFare] = useState('');
-  const [status, setStatus] = useState('CONFIRMED');
-  const [numberOfBags, setNumberOfBags] = useState('');
-  const [totalWeight, setTotalWeight] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
-  const router = useRouter();
+const RideSearch = () => {
+  const [destination, setDestination] = useState('');
+  const [rides, setRides] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
-
+  const handleSearch = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/book-ride', {
-        rideId,
-        passengerId,
-        fare: parseFloat(fare),
-        status,
-        baggageDetails: {
-          numberOfBags: parseInt(numberOfBags),
-          totalWeight: parseFloat(totalWeight),
+      const token = localStorage.getItem('token');
+
+      const response = await axios.get('http://localhost:5000/rides', {
+        params: { destination },
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       });
 
-      setMessage('Booking successful!');
-      router.push('/Dashboard'); // Redirect if needed
+      setRides(response.data);
     } catch (err) {
-      setError(err.response?.data?.error || 'Booking failed');
+      console.error('Error fetching rides:', err);
+      alert('Could not fetch rides');
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-semibold mb-4">Book a Ride</h2>
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">🔍 Search Rides</h2>
 
-      {message && <p className="text-green-600 mb-2">{message}</p>}
-      {error && <p className="text-red-600 mb-2">{error}</p>}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <input
           type="text"
-          placeholder="Ride ID"
-          className="w-full border p-2 rounded"
-          value={rideId}
-          onChange={(e) => setRideId(e.target.value)}
-          required
+          value={destination}
+          onChange={(e) => setDestination(e.target.value)}
+          placeholder="Enter destination"
+          className="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
-        <input
-          type="text"
-          placeholder="Passenger ID"
-          className="w-full border p-2 rounded"
-          value={passengerId}
-          onChange={(e) => setPassengerId(e.target.value)}
-          required
-        />
-        <input
-          type="number"
-          step="0.01"
-          placeholder="Fare"
-          className="w-full border p-2 rounded"
-          value={fare}
-          onChange={(e) => setFare(e.target.value)}
-          required
-        />
-        <input
-          type="number"
-          placeholder="Number of Bags"
-          className="w-full border p-2 rounded"
-          value={numberOfBags}
-          onChange={(e) => setNumberOfBags(e.target.value)}
-        />
-        <input
-          type="number"
-          step="0.1"
-          placeholder="Total Weight (kg)"
-          className="w-full border p-2 rounded"
-          value={totalWeight}
-          onChange={(e) => setTotalWeight(e.target.value)}
-        />
-
         <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          onClick={handleSearch}
+          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
         >
-          Book Ride
+          Search
         </button>
-      </form>
+      </div>
+
+      {rides.length > 0 ? (
+        <ul className="space-y-4">
+          {rides.map((ride) => (
+            <li
+              key={ride.id}
+              className="border rounded-lg p-4 shadow hover:shadow-md transition"
+            >
+              <div className="text-lg font-medium text-gray-700">
+                {ride.startLocation} → {ride.endLocation}
+              </div>
+              <div className="text-sm text-gray-500 mt-1">
+                Departure: {new Date(ride.departureTime).toLocaleString()}
+              </div>
+              <div className="text-sm text-gray-600">
+                Seats: {ride.availableSeats} | Price: ₹{ride.price}
+              </div>
+              <div className="text-sm text-gray-600 mt-1">
+                Driver: {ride.driver?.name} ({ride.driver?.email})
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500 text-sm">No rides found. Try a different destination.</p>
+      )}
     </div>
   );
 };
 
-export default BookRide;
+export default RideSearch;
