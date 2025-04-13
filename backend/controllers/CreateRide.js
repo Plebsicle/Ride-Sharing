@@ -5,6 +5,7 @@ export const createRide = async (req, res) => {
       userId,
       startLocation,
       endLocation,
+      route,
       departureTime,
       availableSeats,
       model,
@@ -21,15 +22,39 @@ export const createRide = async (req, res) => {
     }
 
     const departureDate = new Date(departureTime);
-
     if (isNaN(departureDate.getTime())) {
       return res.status(400).json({ message: 'Invalid departure time.' });
     }
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
-
     if (!user || user.role !== 'DRIVER') {
       return res.status(403).json({ message: 'User is not authorized to create a ride.' });
+    }
+
+    // Ensure vehicle is created or updated for the driver
+    const existingVehicle = await prisma.vehicle.findUnique({ where: { userId } });
+
+    let vehicle;
+    if (existingVehicle) {
+      vehicle = await prisma.vehicle.update({
+        where: { userId },
+        data: {
+          model,
+          licenseNo,
+          color,
+          capacity,
+        },
+      });
+    } else {
+      vehicle = await prisma.vehicle.create({
+        data: {
+          userId,
+          model,
+          licenseNo,
+          color,
+          capacity,
+        },
+      });
     }
 
     // Create the ride
@@ -38,6 +63,7 @@ export const createRide = async (req, res) => {
         driverId: userId,
         startLocation,
         endLocation,
+        route,
         departureTime: departureDate,
         availableSeats,
         price,
@@ -45,25 +71,11 @@ export const createRide = async (req, res) => {
       },
     });
 
-    // Create the vehicle
-    const vehicle = await prisma.vehicle.create({
-      data: {
-        userId,
-        model,
-        licenseNo,
-        color,
-        capacity,
-      },
-      select: {
-        id: true,
-        model: true,
-        licenseNo: true,
-        color: true,
-        capacity: true,
-      },
+    res.status(201).json({
+      message: 'Ride and vehicle created successfully.',
+      ride,
+      vehicle,
     });
-
-    res.status(201).json({ message: 'Ride and vehicle created successfully.', ride, vehicle });
 
   } catch (error) {
     console.error('Create Ride Error:', error);
@@ -73,18 +85,46 @@ export const createRide = async (req, res) => {
 
 export const getAllRides = async (req, res) => {
   try {
+    const { destination } = req.body; // Or req.query if using GET
+    console.log("Destination filter:", destination);
+
     const rides = await prisma.rideGiven.findMany({
+      where: {
+        status: 'SCHEDULED',
+        ...(destination && {
+          OR: [
+            {
+              endLocation: {
+                contains: destination,
+                mode: 'insensitive',
+              },
+            },
+            {
+              route: {
+                contains: destination,
+                mode: 'insensitive',
+              },
+            },
+          ],
+        }),
+      },
       include: {
         driver: {
           select: { id: true, name: true, email: true },
         },
         bookings: true,
       },
-      orderBy: { departureTime: 'asc' },
+      orderBy: {
+        departureTime: 'asc',
+      },
     });
+
     res.json(rides);
   } catch (err) {
     console.error('Error fetching rides:', err);
     res.status(500).json({ error: 'Failed to fetch rides' });
   }
 };
+
+
+

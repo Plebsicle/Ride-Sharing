@@ -14,6 +14,7 @@ export default function Dashboard() {
       window.location.href = '/Signin'; // Use href as requested
     } else {
       const userData = localStorage.getItem('user');
+      console.log('User Data:', userData);
       if (userData) {
         setUser(JSON.parse(userData));
       }
@@ -68,7 +69,7 @@ export default function Dashboard() {
                 <FaUser className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Welcome, {user?.name}</h1>
+                
                 <p className="text-gray-500">Your ride-sharing dashboard</p>
               </div>
             </div>

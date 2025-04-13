@@ -41,6 +41,7 @@ model RideGiven {
   driverId       String
   startLocation  String
   endLocation    String
+  route          String // <-- added route field
   departureTime  DateTime
   availableSeats Int
   price          Float

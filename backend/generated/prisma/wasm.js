@@ -143,6 +143,7 @@ exports.Prisma.RideGivenScalarFieldEnum = {
   driverId: 'driverId',
   startLocation: 'startLocation',
   endLocation: 'endLocation',
+  route: 'route',
   departureTime: 'departureTime',
   availableSeats: 'availableSeats',
   price: 'price',

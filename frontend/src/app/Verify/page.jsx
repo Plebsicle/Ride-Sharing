@@ -21,6 +21,9 @@ const Verify = () => {
 
       setMessage(res.data.message);
       localStorage.removeItem('verifyEmail');
+      if(res.data.user.role === 'DRIVER') {
+        router.push('/DriverDashboard');
+      }
       router.push('/Dashboard');
     } catch (err) {
       setError(err.response?.data?.error || 'OTP verification failed');

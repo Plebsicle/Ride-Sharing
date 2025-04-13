@@ -1,8 +1,10 @@
 'use client';
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation'; // ✅ Correct import
 
 const LoginPage = () => {
+  const router = useRouter(); // ✅ Initialize router
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -15,14 +17,19 @@ const LoginPage = () => {
 
     try {
       const res = await axios.post('http://localhost:5000/login', { email, password });
-
       const data = res.data;
 
       localStorage.setItem('jwtToken', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
+      console.log('User Data:', data.user);
 
-      console.log('Login successful:', data);
-      window.location.href = '/Dashboard';
+      // ✅ Role-based navigation
+      if (data.user.role === 'DRIVER') {
+        router.push('/DriverDashboard');
+      } else {
+        router.push('/Dashboard');
+      }
+
     } catch (err) {
       if (err.response) {
         setError(err.response.data.error || 'Something went wrong');

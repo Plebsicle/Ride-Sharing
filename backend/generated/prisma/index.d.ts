@@ -3997,6 +3997,7 @@ export namespace Prisma {
     driverId: string | null
     startLocation: string | null
     endLocation: string | null
+    route: string | null
     departureTime: Date | null
     availableSeats: number | null
     price: number | null
@@ -4010,6 +4011,7 @@ export namespace Prisma {
     driverId: string | null
     startLocation: string | null
     endLocation: string | null
+    route: string | null
     departureTime: Date | null
     availableSeats: number | null
     price: number | null
@@ -4023,6 +4025,7 @@ export namespace Prisma {
     driverId: number
     startLocation: number
     endLocation: number
+    route: number
     departureTime: number
     availableSeats: number
     price: number
@@ -4048,6 +4051,7 @@ export namespace Prisma {
     driverId?: true
     startLocation?: true
     endLocation?: true
+    route?: true
     departureTime?: true
     availableSeats?: true
     price?: true
@@ -4061,6 +4065,7 @@ export namespace Prisma {
     driverId?: true
     startLocation?: true
     endLocation?: true
+    route?: true
     departureTime?: true
     availableSeats?: true
     price?: true
@@ -4074,6 +4079,7 @@ export namespace Prisma {
     driverId?: true
     startLocation?: true
     endLocation?: true
+    route?: true
     departureTime?: true
     availableSeats?: true
     price?: true
@@ -4174,6 +4180,7 @@ export namespace Prisma {
     driverId: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date
     availableSeats: number
     price: number
@@ -4206,6 +4213,7 @@ export namespace Prisma {
     driverId?: boolean
     startLocation?: boolean
     endLocation?: boolean
+    route?: boolean
     departureTime?: boolean
     availableSeats?: boolean
     price?: boolean
@@ -4222,6 +4230,7 @@ export namespace Prisma {
     driverId?: boolean
     startLocation?: boolean
     endLocation?: boolean
+    route?: boolean
     departureTime?: boolean
     availableSeats?: boolean
     price?: boolean
@@ -4236,6 +4245,7 @@ export namespace Prisma {
     driverId?: boolean
     startLocation?: boolean
     endLocation?: boolean
+    route?: boolean
     departureTime?: boolean
     availableSeats?: boolean
     price?: boolean
@@ -4250,6 +4260,7 @@ export namespace Prisma {
     driverId?: boolean
     startLocation?: boolean
     endLocation?: boolean
+    route?: boolean
     departureTime?: boolean
     availableSeats?: boolean
     price?: boolean
@@ -4258,7 +4269,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type RideGivenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "driverId" | "startLocation" | "endLocation" | "departureTime" | "availableSeats" | "price" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["rideGiven"]>
+  export type RideGivenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "driverId" | "startLocation" | "endLocation" | "route" | "departureTime" | "availableSeats" | "price" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["rideGiven"]>
   export type RideGivenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookings?: boolean | RideGiven$bookingsArgs<ExtArgs>
     driver?: boolean | UserDefaultArgs<ExtArgs>
@@ -4282,6 +4293,7 @@ export namespace Prisma {
       driverId: string
       startLocation: string
       endLocation: string
+      route: string
       departureTime: Date
       availableSeats: number
       price: number
@@ -4717,6 +4729,7 @@ export namespace Prisma {
     readonly driverId: FieldRef<"RideGiven", 'String'>
     readonly startLocation: FieldRef<"RideGiven", 'String'>
     readonly endLocation: FieldRef<"RideGiven", 'String'>
+    readonly route: FieldRef<"RideGiven", 'String'>
     readonly departureTime: FieldRef<"RideGiven", 'DateTime'>
     readonly availableSeats: FieldRef<"RideGiven", 'Int'>
     readonly price: FieldRef<"RideGiven", 'Float'>
@@ -10742,6 +10755,7 @@ export namespace Prisma {
     driverId: 'driverId',
     startLocation: 'startLocation',
     endLocation: 'endLocation',
+    route: 'route',
     departureTime: 'departureTime',
     availableSeats: 'availableSeats',
     price: 'price',
@@ -11099,6 +11113,7 @@ export namespace Prisma {
     driverId?: StringFilter<"RideGiven"> | string
     startLocation?: StringFilter<"RideGiven"> | string
     endLocation?: StringFilter<"RideGiven"> | string
+    route?: StringFilter<"RideGiven"> | string
     departureTime?: DateTimeFilter<"RideGiven"> | Date | string
     availableSeats?: IntFilter<"RideGiven"> | number
     price?: FloatFilter<"RideGiven"> | number
@@ -11114,6 +11129,7 @@ export namespace Prisma {
     driverId?: SortOrder
     startLocation?: SortOrder
     endLocation?: SortOrder
+    route?: SortOrder
     departureTime?: SortOrder
     availableSeats?: SortOrder
     price?: SortOrder
@@ -11132,6 +11148,7 @@ export namespace Prisma {
     driverId?: StringFilter<"RideGiven"> | string
     startLocation?: StringFilter<"RideGiven"> | string
     endLocation?: StringFilter<"RideGiven"> | string
+    route?: StringFilter<"RideGiven"> | string
     departureTime?: DateTimeFilter<"RideGiven"> | Date | string
     availableSeats?: IntFilter<"RideGiven"> | number
     price?: FloatFilter<"RideGiven"> | number
@@ -11147,6 +11164,7 @@ export namespace Prisma {
     driverId?: SortOrder
     startLocation?: SortOrder
     endLocation?: SortOrder
+    route?: SortOrder
     departureTime?: SortOrder
     availableSeats?: SortOrder
     price?: SortOrder
@@ -11168,6 +11186,7 @@ export namespace Prisma {
     driverId?: StringWithAggregatesFilter<"RideGiven"> | string
     startLocation?: StringWithAggregatesFilter<"RideGiven"> | string
     endLocation?: StringWithAggregatesFilter<"RideGiven"> | string
+    route?: StringWithAggregatesFilter<"RideGiven"> | string
     departureTime?: DateTimeWithAggregatesFilter<"RideGiven"> | Date | string
     availableSeats?: IntWithAggregatesFilter<"RideGiven"> | number
     price?: FloatWithAggregatesFilter<"RideGiven"> | number
@@ -11677,6 +11696,7 @@ export namespace Prisma {
     id?: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date | string
     availableSeats: number
     price: number
@@ -11692,6 +11712,7 @@ export namespace Prisma {
     driverId: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date | string
     availableSeats: number
     price: number
@@ -11705,6 +11726,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -11720,6 +11742,7 @@ export namespace Prisma {
     driverId?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -11734,6 +11757,7 @@ export namespace Prisma {
     driverId: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date | string
     availableSeats: number
     price: number
@@ -11746,6 +11770,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -11759,6 +11784,7 @@ export namespace Prisma {
     driverId?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -12398,6 +12424,7 @@ export namespace Prisma {
     driverId?: SortOrder
     startLocation?: SortOrder
     endLocation?: SortOrder
+    route?: SortOrder
     departureTime?: SortOrder
     availableSeats?: SortOrder
     price?: SortOrder
@@ -12416,6 +12443,7 @@ export namespace Prisma {
     driverId?: SortOrder
     startLocation?: SortOrder
     endLocation?: SortOrder
+    route?: SortOrder
     departureTime?: SortOrder
     availableSeats?: SortOrder
     price?: SortOrder
@@ -12429,6 +12457,7 @@ export namespace Prisma {
     driverId?: SortOrder
     startLocation?: SortOrder
     endLocation?: SortOrder
+    route?: SortOrder
     departureTime?: SortOrder
     availableSeats?: SortOrder
     price?: SortOrder
@@ -13412,6 +13441,7 @@ export namespace Prisma {
     id?: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date | string
     availableSeats: number
     price: number
@@ -13425,6 +13455,7 @@ export namespace Prisma {
     id?: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date | string
     availableSeats: number
     price: number
@@ -13606,6 +13637,7 @@ export namespace Prisma {
     driverId?: StringFilter<"RideGiven"> | string
     startLocation?: StringFilter<"RideGiven"> | string
     endLocation?: StringFilter<"RideGiven"> | string
+    route?: StringFilter<"RideGiven"> | string
     departureTime?: DateTimeFilter<"RideGiven"> | Date | string
     availableSeats?: IntFilter<"RideGiven"> | number
     price?: FloatFilter<"RideGiven"> | number
@@ -13919,6 +13951,7 @@ export namespace Prisma {
     id?: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date | string
     availableSeats: number
     price: number
@@ -13933,6 +13966,7 @@ export namespace Prisma {
     driverId: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date | string
     availableSeats: number
     price: number
@@ -14029,6 +14063,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -14043,6 +14078,7 @@ export namespace Prisma {
     driverId?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -14390,6 +14426,7 @@ export namespace Prisma {
     id?: string
     startLocation: string
     endLocation: string
+    route: string
     departureTime: Date | string
     availableSeats: number
     price: number
@@ -14461,6 +14498,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -14474,6 +14512,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
@@ -14487,6 +14526,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     startLocation?: StringFieldUpdateOperationsInput | string
     endLocation?: StringFieldUpdateOperationsInput | string
+    route?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
     availableSeats?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
