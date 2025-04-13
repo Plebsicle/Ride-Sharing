@@ -77,7 +77,7 @@ export const login = async (req, res) => {
       return res.status(403).json({ error: 'Please verify your email before logging in.' });
     }
 
-    const token = jwt.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ userId: user.id, role: user.role,name:user.name,email:user.email }, JWT_SECRET, { expiresIn: '7d' });
 
     res.json({
       token,
@@ -116,9 +116,6 @@ export const sendOtpToUser = async (req, res) => {
   }
 };
 
-/**
- * Verify OTP and mark user as verified
- */
 export const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
 
@@ -139,14 +136,37 @@ export const verifyOtp = async (req, res) => {
   otpStore.delete(email);
 
   try {
-    await prisma.user.update({
+    // Update user as verified
+    const updatedUser = await prisma.user.update({
       where: { email },
       data: { isVerified: true },
     });
 
-    res.json({ message: 'OTP verified successfully. Email is now verified.' });
+    // Generate JWT token after successful verification
+    const token = jwt.sign(
+      {
+        userId: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.json({
+      message: 'OTP verified successfully. Email is now verified.',
+      token,
+      user: {
+        id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      },
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to update verification status' });
   }
 };
+

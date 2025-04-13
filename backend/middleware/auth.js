@@ -9,7 +9,6 @@ export const authenticate = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ error: 'Access denied, no token provided' });
   }
-
   try {
     // Verify the JWT token
     const decoded = jwt.verify(token, JWT_SECRET);

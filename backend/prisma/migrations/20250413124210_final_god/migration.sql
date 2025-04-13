@@ -1,11 +1,8 @@
 -- CreateEnum
-CREATE TYPE "UserRole" AS ENUM ('PASSENGER', 'DRIVER', 'ADMIN');
-
--- CreateEnum
 CREATE TYPE "RideStatus" AS ENUM ('SCHEDULED', 'BOOKED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED');
 
 -- CreateEnum
-CREATE TYPE "BookingStatus" AS ENUM ('PENDING', 'CONFIRMED', 'CANCELLED');
+CREATE TYPE "UserRole" AS ENUM ('PASSENGER', 'DRIVER', 'ADMIN');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -15,7 +12,9 @@ CREATE TABLE "User" (
     "password" TEXT NOT NULL,
     "role" "UserRole" NOT NULL DEFAULT 'PASSENGER',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "isVerified" BOOLEAN NOT NULL DEFAULT false,
+    "aadharNumber" TEXT,
+    "isAadharVerified" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -26,7 +25,7 @@ CREATE TABLE "Vehicle" (
     "userId" TEXT NOT NULL,
     "model" TEXT NOT NULL,
     "licenseNo" TEXT NOT NULL,
-    "color" TEXT,
+    "color" TEXT NOT NULL,
     "capacity" INTEGER NOT NULL,
 
     CONSTRAINT "Vehicle_pkey" PRIMARY KEY ("id")
@@ -41,7 +40,7 @@ CREATE TABLE "RideGiven" (
     "departureTime" TIMESTAMP(3) NOT NULL,
     "availableSeats" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
-    "status" "RideStatus" NOT NULL DEFAULT 'SCHEDULED',
+    "status" "RideStatus" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -53,10 +52,12 @@ CREATE TABLE "Booking" (
     "id" TEXT NOT NULL,
     "rideId" TEXT NOT NULL,
     "passengerId" TEXT NOT NULL,
-    "status" "BookingStatus" NOT NULL DEFAULT 'PENDING',
     "fare" DOUBLE PRECISION NOT NULL,
+    "pickupTime" TIMESTAMP(3) NOT NULL,
+    "pickupLocation" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "status" "RideStatus" NOT NULL,
 
     CONSTRAINT "Booking_pkey" PRIMARY KEY ("id")
 );
@@ -75,8 +76,7 @@ CREATE TABLE "Baggage" (
 CREATE TABLE "DriverVerification" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "documentUrl" TEXT NOT NULL,
-    "verified" BOOLEAN NOT NULL DEFAULT false,
+    "documentNumber" TEXT NOT NULL,
     "uploadedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "DriverVerification_pkey" PRIMARY KEY ("id")
@@ -114,6 +114,9 @@ CREATE TABLE "Notification" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_aadharNumber_key" ON "User"("aadharNumber");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Vehicle_userId_key" ON "Vehicle"("userId");
 
 -- CreateIndex
@@ -135,10 +138,10 @@ ALTER TABLE "Vehicle" ADD CONSTRAINT "Vehicle_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "RideGiven" ADD CONSTRAINT "RideGiven_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Booking" ADD CONSTRAINT "Booking_rideId_fkey" FOREIGN KEY ("rideId") REFERENCES "RideGiven"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Booking" ADD CONSTRAINT "Booking_passengerId_fkey" FOREIGN KEY ("passengerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Booking" ADD CONSTRAINT "Booking_passengerId_fkey" FOREIGN KEY ("passengerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Booking" ADD CONSTRAINT "Booking_rideId_fkey" FOREIGN KEY ("rideId") REFERENCES "RideGiven"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Baggage" ADD CONSTRAINT "Baggage_bookingId_fkey" FOREIGN KEY ("bookingId") REFERENCES "Booking"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

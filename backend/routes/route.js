@@ -26,8 +26,8 @@ router.post('/verify-otp', verifyOtp);
 
 
 
-router.post('/create-ride', createRide);
-router.get('/rides', getAllRides);
+router.post('/create-ride', authenticate,createRide);
+router.get('/rides', authenticate,getAllRides);
 // 📦 Booking Routes
 router.post('/bookings', createBooking);
 router.get('/bookings', authenticate, getAllBookings);

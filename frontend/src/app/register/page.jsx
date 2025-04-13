@@ -37,7 +37,7 @@ const Register = () => {
 
       // Store the email in localStorage to be used in the Verify page
       localStorage.setItem('verifyEmail', formData.email);
-
+      localStorage.setItem('jwtToken', res.data.token);
       // Navigate to /Verify after successful registration
       router.push('/Verify');
     } catch (err) {
