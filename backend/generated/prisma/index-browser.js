@@ -157,8 +157,8 @@ exports.Prisma.BookingScalarFieldEnum = {
   rideId: 'rideId',
   passengerId: 'passengerId',
   fare: 'fare',
-  PickupTime: 'PickupTime',
-  PickupLocation: 'PickupLocation',
+  Time: 'Time',
+  Location: 'Location',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   status: 'status'

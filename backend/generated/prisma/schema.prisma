@@ -53,18 +53,18 @@ model RideGiven {
 }
 
 model Booking {
-  id             String     @id @default(uuid())
-  rideId         String
-  passengerId    String
-  fare           Float
-  PickupTime     DateTime
-  PickupLocation String
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  status         RideStatus
-  baggage        Baggage?
-  passenger      User       @relation("PassengerBookings", fields: [passengerId], references: [id])
-  ride           RideGiven  @relation(fields: [rideId], references: [id])
+  id          String     @id @default(uuid())
+  rideId      String
+  passengerId String
+  fare        Float
+  Time        String
+  Location    String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  status      RideStatus
+  baggage     Baggage?
+  passenger   User       @relation("PassengerBookings", fields: [passengerId], references: [id])
+  ride        RideGiven  @relation(fields: [rideId], references: [id])
 }
 
 model Baggage {

@@ -5,22 +5,63 @@ import axios from 'axios';
 const RideSearch = () => {
   const [destination, setDestination] = useState('');
   const [rides, setRides] = useState([]);
+  const [selectedRide, setSelectedRide] = useState(null);
+  const [numberOfBags, setNumberOfBags] = useState('');
+  const [totalWeight, setTotalWeight] = useState('');
+  const [pickupLocation, setPickupLocation] = useState('');
+  const [pickupDate, setPickupDate] = useState(''); // pickupDate as string
 
   const handleSearch = async () => {
     try {
       const token = localStorage.getItem('token');
-
       const response = await axios.get('http://localhost:5000/rides', {
         params: { destination },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
       setRides(response.data);
     } catch (err) {
       console.error('Error fetching rides:', err);
       alert('Could not fetch rides');
+    }
+  };
+
+  const handleBookRide = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user'));
+      const passengerId = user.id;
+
+      const pickupTime = pickupDate; // Directly pass pickupDate as string
+
+      const response = await axios.post(
+        `http://localhost:5000/bookings/${selectedRide.id}`,
+        {
+          pickupLocation,
+          pickupTime, // Send pickupTime as string
+          passengerId,
+          baggageDetails: {
+            numberOfBags: parseInt(numberOfBags),
+            totalWeight: parseFloat(totalWeight),
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert('Ride booked successfully!');
+      setSelectedRide(null);
+      setNumberOfBags('');
+      setTotalWeight('');
+      setPickupLocation('');
+      setPickupDate('');
+    } catch (err) {
+      console.error('Error booking ride:', err);
+      alert('Failed to book ride');
     }
   };
 
@@ -63,11 +104,58 @@ const RideSearch = () => {
               <div className="text-sm text-gray-600 mt-1">
                 Driver: {ride.driver?.name} ({ride.driver?.email})
               </div>
+              <button
+                onClick={() => setSelectedRide(ride)}
+                className="mt-3 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+              >
+                Book this Ride
+              </button>
             </li>
           ))}
         </ul>
       ) : (
         <p className="text-gray-500 text-sm">No rides found. Try a different destination.</p>
+      )}
+
+      {selectedRide && (
+        <div className="mt-6 border-t pt-4">
+          <h3 className="text-xl font-semibold mb-2">📦 Booking Details</h3>
+          <div className="space-y-4">
+            <input
+              type="text"
+              placeholder="Pickup Location"
+              value={pickupLocation}
+              onChange={(e) => setPickupLocation(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <input
+              type="date"
+              value={pickupDate}
+              onChange={(e) => setPickupDate(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <input
+              type="number"
+              placeholder="Number of Bags"
+              value={numberOfBags}
+              onChange={(e) => setNumberOfBags(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <input
+              type="number"
+              placeholder="Total Weight (kg)"
+              value={totalWeight}
+              onChange={(e) => setTotalWeight(e.target.value)}
+              className="w-full px-4 py-2 border rounded-lg"
+            />
+            <button
+              onClick={handleBookRide}
+              className="bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition"
+            >
+              Confirm Booking
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

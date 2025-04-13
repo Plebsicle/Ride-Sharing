@@ -20,6 +20,8 @@ const Verify = () => {
       });
 
       setMessage(res.data.message);
+      localStorage.setItem('jwtToken', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
       localStorage.removeItem('verifyEmail');
       if(res.data.user.role === 'DRIVER') {
         router.push('/DriverDashboard');

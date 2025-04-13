@@ -58,8 +58,8 @@ model Booking {
   rideId      String
   passengerId String
   fare        Float
-  PickupTime DateTime 
-  PickupLocation String
+  Time        String
+  Location String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   status      RideStatus

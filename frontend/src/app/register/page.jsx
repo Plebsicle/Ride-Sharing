@@ -35,7 +35,7 @@ const Register = () => {
 
       setMessage(res.data.message);
       localStorage.setItem('verifyEmail', formData.email);
-      localStorage.setItem('jwtToken', res.data.token);
+     
       router.push('/Verify');
     } catch (err) {
       setError(err.response?.data?.error || 'Registration failed');

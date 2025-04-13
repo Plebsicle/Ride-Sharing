@@ -20,6 +20,7 @@ const LoginPage = () => {
       const data = res.data;
 
       localStorage.setItem('jwtToken', data.token);
+      console.log('JWT Token:', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       console.log('User Data:', data.user);
 

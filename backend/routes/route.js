@@ -29,7 +29,7 @@ router.post('/verify-otp', verifyOtp);
 router.post('/create-ride', authenticate,createRide);
 router.get('/rides',getAllRides);
 // 📦 Booking Routes
-router.post('/bookings', createBooking);
+router.post('/bookings/:rideId', createBooking);
 router.get('/bookings', authenticate, getAllBookings);
 router.get('/bookings/:id', authenticate, getBookingById);
 router.put('/bookings/:id', authenticate, updateBooking);
