@@ -4,12 +4,6 @@ const router = Router();
 import { register, login, sendOtpToUser, verifyOtp } from '../controllers/AuthConrtroller.js';
 import { authenticate } from '../middleware/auth.js';
 
-import {
-  submitVerification,
-  getVerificationStatus,
-  approveVerification
-} from '../controllers/DriverVerify.js';
-
 
 import { createRide } from '../controllers/CreateRide.js';
 
@@ -31,9 +25,6 @@ router.post('/send-otp', sendOtpToUser);
 router.post('/verify-otp', verifyOtp);
 
 
-router.post('/verification', submitVerification);
-router.get('/verification/:userId', authenticate, getVerificationStatus);
-router.put('/verification/approve/:verificationId', authenticate, approveVerification);
 
 router.post('/create-ride', createRide);
 
