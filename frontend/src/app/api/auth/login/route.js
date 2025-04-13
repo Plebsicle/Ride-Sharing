@@ -4,7 +4,7 @@ export async function POST(req) {
   try {
     const body = await req.json();
     
-    const backendResponse = await fetch('http://localhost:5000/api/login', {
+    const backendResponse = await fetch('http://localhost:5000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
