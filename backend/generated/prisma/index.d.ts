@@ -7380,21 +7380,24 @@ export namespace Prisma {
   export type DriverVerificationMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    documentUrl: string | null
+    aadharCard: string | null
+    drivingLicense: string | null
     uploadedAt: Date | null
   }
 
   export type DriverVerificationMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    documentUrl: string | null
+    aadharCard: string | null
+    drivingLicense: string | null
     uploadedAt: Date | null
   }
 
   export type DriverVerificationCountAggregateOutputType = {
     id: number
     userId: number
-    documentUrl: number
+    aadharCard: number
+    drivingLicense: number
     uploadedAt: number
     _all: number
   }
@@ -7403,21 +7406,24 @@ export namespace Prisma {
   export type DriverVerificationMinAggregateInputType = {
     id?: true
     userId?: true
-    documentUrl?: true
+    aadharCard?: true
+    drivingLicense?: true
     uploadedAt?: true
   }
 
   export type DriverVerificationMaxAggregateInputType = {
     id?: true
     userId?: true
-    documentUrl?: true
+    aadharCard?: true
+    drivingLicense?: true
     uploadedAt?: true
   }
 
   export type DriverVerificationCountAggregateInputType = {
     id?: true
     userId?: true
-    documentUrl?: true
+    aadharCard?: true
+    drivingLicense?: true
     uploadedAt?: true
     _all?: true
   }
@@ -7497,7 +7503,8 @@ export namespace Prisma {
   export type DriverVerificationGroupByOutputType = {
     id: string
     userId: string
-    documentUrl: string
+    aadharCard: string
+    drivingLicense: string
     uploadedAt: Date
     _count: DriverVerificationCountAggregateOutputType | null
     _min: DriverVerificationMinAggregateOutputType | null
@@ -7521,7 +7528,8 @@ export namespace Prisma {
   export type DriverVerificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    documentUrl?: boolean
+    aadharCard?: boolean
+    drivingLicense?: boolean
     uploadedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["driverVerification"]>
@@ -7529,7 +7537,8 @@ export namespace Prisma {
   export type DriverVerificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    documentUrl?: boolean
+    aadharCard?: boolean
+    drivingLicense?: boolean
     uploadedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["driverVerification"]>
@@ -7537,7 +7546,8 @@ export namespace Prisma {
   export type DriverVerificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    documentUrl?: boolean
+    aadharCard?: boolean
+    drivingLicense?: boolean
     uploadedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["driverVerification"]>
@@ -7545,11 +7555,12 @@ export namespace Prisma {
   export type DriverVerificationSelectScalar = {
     id?: boolean
     userId?: boolean
-    documentUrl?: boolean
+    aadharCard?: boolean
+    drivingLicense?: boolean
     uploadedAt?: boolean
   }
 
-  export type DriverVerificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "documentUrl" | "uploadedAt", ExtArgs["result"]["driverVerification"]>
+  export type DriverVerificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "aadharCard" | "drivingLicense" | "uploadedAt", ExtArgs["result"]["driverVerification"]>
   export type DriverVerificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -7568,7 +7579,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      documentUrl: string
+      aadharCard: string
+      drivingLicense: string
       uploadedAt: Date
     }, ExtArgs["result"]["driverVerification"]>
     composites: {}
@@ -7996,7 +8008,8 @@ export namespace Prisma {
   interface DriverVerificationFieldRefs {
     readonly id: FieldRef<"DriverVerification", 'String'>
     readonly userId: FieldRef<"DriverVerification", 'String'>
-    readonly documentUrl: FieldRef<"DriverVerification", 'String'>
+    readonly aadharCard: FieldRef<"DriverVerification", 'String'>
+    readonly drivingLicense: FieldRef<"DriverVerification", 'String'>
     readonly uploadedAt: FieldRef<"DriverVerification", 'DateTime'>
   }
     
@@ -10725,7 +10738,8 @@ export namespace Prisma {
   export const DriverVerificationScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    documentUrl: 'documentUrl',
+    aadharCard: 'aadharCard',
+    drivingLicense: 'drivingLicense',
     uploadedAt: 'uploadedAt'
   };
 
@@ -11241,7 +11255,8 @@ export namespace Prisma {
     NOT?: DriverVerificationWhereInput | DriverVerificationWhereInput[]
     id?: StringFilter<"DriverVerification"> | string
     userId?: StringFilter<"DriverVerification"> | string
-    documentUrl?: StringFilter<"DriverVerification"> | string
+    aadharCard?: StringFilter<"DriverVerification"> | string
+    drivingLicense?: StringFilter<"DriverVerification"> | string
     uploadedAt?: DateTimeFilter<"DriverVerification"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -11249,7 +11264,8 @@ export namespace Prisma {
   export type DriverVerificationOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    documentUrl?: SortOrder
+    aadharCard?: SortOrder
+    drivingLicense?: SortOrder
     uploadedAt?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -11260,7 +11276,8 @@ export namespace Prisma {
     AND?: DriverVerificationWhereInput | DriverVerificationWhereInput[]
     OR?: DriverVerificationWhereInput[]
     NOT?: DriverVerificationWhereInput | DriverVerificationWhereInput[]
-    documentUrl?: StringFilter<"DriverVerification"> | string
+    aadharCard?: StringFilter<"DriverVerification"> | string
+    drivingLicense?: StringFilter<"DriverVerification"> | string
     uploadedAt?: DateTimeFilter<"DriverVerification"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "userId">
@@ -11268,7 +11285,8 @@ export namespace Prisma {
   export type DriverVerificationOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    documentUrl?: SortOrder
+    aadharCard?: SortOrder
+    drivingLicense?: SortOrder
     uploadedAt?: SortOrder
     _count?: DriverVerificationCountOrderByAggregateInput
     _max?: DriverVerificationMaxOrderByAggregateInput
@@ -11281,7 +11299,8 @@ export namespace Prisma {
     NOT?: DriverVerificationScalarWhereWithAggregatesInput | DriverVerificationScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"DriverVerification"> | string
     userId?: StringWithAggregatesFilter<"DriverVerification"> | string
-    documentUrl?: StringWithAggregatesFilter<"DriverVerification"> | string
+    aadharCard?: StringWithAggregatesFilter<"DriverVerification"> | string
+    drivingLicense?: StringWithAggregatesFilter<"DriverVerification"> | string
     uploadedAt?: DateTimeWithAggregatesFilter<"DriverVerification"> | Date | string
   }
 
@@ -11799,7 +11818,8 @@ export namespace Prisma {
 
   export type DriverVerificationCreateInput = {
     id?: string
-    documentUrl: string
+    aadharCard: string
+    drivingLicense: string
     uploadedAt?: Date | string
     user: UserCreateNestedOneWithoutDriverVerificationInput
   }
@@ -11807,13 +11827,15 @@ export namespace Prisma {
   export type DriverVerificationUncheckedCreateInput = {
     id?: string
     userId: string
-    documentUrl: string
+    aadharCard: string
+    drivingLicense: string
     uploadedAt?: Date | string
   }
 
   export type DriverVerificationUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentUrl?: StringFieldUpdateOperationsInput | string
+    aadharCard?: StringFieldUpdateOperationsInput | string
+    drivingLicense?: StringFieldUpdateOperationsInput | string
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutDriverVerificationNestedInput
   }
@@ -11821,27 +11843,31 @@ export namespace Prisma {
   export type DriverVerificationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    documentUrl?: StringFieldUpdateOperationsInput | string
+    aadharCard?: StringFieldUpdateOperationsInput | string
+    drivingLicense?: StringFieldUpdateOperationsInput | string
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DriverVerificationCreateManyInput = {
     id?: string
     userId: string
-    documentUrl: string
+    aadharCard: string
+    drivingLicense: string
     uploadedAt?: Date | string
   }
 
   export type DriverVerificationUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentUrl?: StringFieldUpdateOperationsInput | string
+    aadharCard?: StringFieldUpdateOperationsInput | string
+    drivingLicense?: StringFieldUpdateOperationsInput | string
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DriverVerificationUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    documentUrl?: StringFieldUpdateOperationsInput | string
+    aadharCard?: StringFieldUpdateOperationsInput | string
+    drivingLicense?: StringFieldUpdateOperationsInput | string
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -12445,21 +12471,24 @@ export namespace Prisma {
   export type DriverVerificationCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    documentUrl?: SortOrder
+    aadharCard?: SortOrder
+    drivingLicense?: SortOrder
     uploadedAt?: SortOrder
   }
 
   export type DriverVerificationMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    documentUrl?: SortOrder
+    aadharCard?: SortOrder
+    drivingLicense?: SortOrder
     uploadedAt?: SortOrder
   }
 
   export type DriverVerificationMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    documentUrl?: SortOrder
+    aadharCard?: SortOrder
+    drivingLicense?: SortOrder
     uploadedAt?: SortOrder
   }
 
@@ -13275,13 +13304,15 @@ export namespace Prisma {
 
   export type DriverVerificationCreateWithoutUserInput = {
     id?: string
-    documentUrl: string
+    aadharCard: string
+    drivingLicense: string
     uploadedAt?: Date | string
   }
 
   export type DriverVerificationUncheckedCreateWithoutUserInput = {
     id?: string
-    documentUrl: string
+    aadharCard: string
+    drivingLicense: string
     uploadedAt?: Date | string
   }
 
@@ -13446,13 +13477,15 @@ export namespace Prisma {
 
   export type DriverVerificationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentUrl?: StringFieldUpdateOperationsInput | string
+    aadharCard?: StringFieldUpdateOperationsInput | string
+    drivingLicense?: StringFieldUpdateOperationsInput | string
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DriverVerificationUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentUrl?: StringFieldUpdateOperationsInput | string
+    aadharCard?: StringFieldUpdateOperationsInput | string
+    drivingLicense?: StringFieldUpdateOperationsInput | string
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

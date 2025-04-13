@@ -169,7 +169,8 @@ exports.Prisma.BaggageScalarFieldEnum = {
 exports.Prisma.DriverVerificationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  documentUrl: 'documentUrl',
+  aadharCard: 'aadharCard',
+  drivingLicense: 'drivingLicense',
   uploadedAt: 'uploadedAt'
 };
 
