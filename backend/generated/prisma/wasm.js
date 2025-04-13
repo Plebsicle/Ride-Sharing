@@ -123,8 +123,10 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   role: 'role',
+  createdAt: 'createdAt',
   isVerified: 'isVerified',
-  createdAt: 'createdAt'
+  aadharNumber: 'aadharNumber',
+  isAadharVerified: 'isAadharVerified'
 };
 
 exports.Prisma.VehicleScalarFieldEnum = {
@@ -153,10 +155,10 @@ exports.Prisma.BookingScalarFieldEnum = {
   id: 'id',
   rideId: 'rideId',
   passengerId: 'passengerId',
-  status: 'status',
   fare: 'fare',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  status: 'status'
 };
 
 exports.Prisma.BaggageScalarFieldEnum = {
@@ -216,11 +218,11 @@ exports.UserRole = exports.$Enums.UserRole = {
 };
 
 exports.RideStatus = exports.$Enums.RideStatus = {
-  COMPLETED: 'COMPLETED',
-  IN_PROGRESS: 'IN_PROGRESS',
-  CANCELLED: 'CANCELLED',
   SCHEDULED: 'SCHEDULED',
-  BOOKED: 'BOOKED'
+  BOOKED: 'BOOKED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
 };
 
 exports.Prisma.ModelName = {

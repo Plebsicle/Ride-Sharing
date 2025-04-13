@@ -9,15 +9,15 @@ import {
   approveVerification
 } from '../controllers/DriverVerify.js';
 
-// 🔐 Auth Routes
+// Auth Routes
 router.post('/register', register);
 router.post('/login', login);
 
-// 📧 OTP Routes
+// OTP Routes
 router.post('/send-otp', sendOtpToUser);
 router.post('/verify-otp', verifyOtp);
 
-// 🚗 Driver Verification Routes
+// Driver Verification Routes
 router.post('/verification', submitVerification);
 router.get('/verification/:userId', authenticate, getVerificationStatus);
 router.put('/verification/approve/:verificationId', authenticate, approveVerification);

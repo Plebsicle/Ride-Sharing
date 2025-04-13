@@ -1,15 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
-
-
 
 datasource db {
   provider = "postgresql"
@@ -17,35 +9,35 @@ datasource db {
 }
 
 model User {
-  id                  String               @id @default(uuid())
-  name                String
-  email               String               @unique
-  password            String
-  role                UserRole             @default(PASSENGER)
-  isVerified          Boolean              @default(false)  // Add this line
-  vehicle             Vehicle?
-  ridesGiven          RideGiven[]          @relation("DriverRides")
-  bookings            Booking[]            @relation("PassengerBookings")
-  driverVerification  DriverVerification?
-  location            Location?
-  notifications       Notification[]
-  createdAt           DateTime             @default(now())
+  id                 String              @id @default(uuid())
+  name               String
+  email              String              @unique
+  password           String
+  role               UserRole            @default(PASSENGER)
+  createdAt          DateTime            @default(now())
+  isVerified         Boolean             @default(false)
+  aadharNumber       String?             @unique
+  isAadharVerified   Boolean             @default(false)
+  bookings           Booking[]           @relation("PassengerBookings")
+  driverVerification DriverVerification?
+  location           Location?
+  notifications      Notification[]
+  ridesGiven         RideGiven[]         @relation("DriverRides")
+  vehicle            Vehicle?
 }
 
-
 model Vehicle {
-  id          String   @id @default(uuid())
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String   @unique
-  model       String
-  licenseNo   String   @unique
-  color       String?
-  capacity    Int
+  id        String  @id @default(uuid())
+  userId    String  @unique
+  model     String
+  licenseNo String  @unique
+  color     String?
+  capacity  Int
+  user      User    @relation(fields: [userId], references: [id])
 }
 
 model RideGiven {
-  id             String      @id @default(uuid())
-  driver         User        @relation("DriverRides", fields: [driverId], references: [id])
+  id             String     @id @default(uuid())
   driverId       String
   startLocation  String
   endLocation    String
@@ -53,70 +45,71 @@ model RideGiven {
   availableSeats Int
   price          Float
   status         RideStatus
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
   bookings       Booking[]
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  driver         User       @relation("DriverRides", fields: [driverId], references: [id])
 }
 
 model Booking {
-  id           String     @id @default(uuid())
-  ride         RideGiven  @relation(fields: [rideId], references: [id])
-  rideId       String
-  passenger    User       @relation("PassengerBookings", fields: [passengerId], references: [id])
-  passengerId  String
-  baggage      Baggage?
-  status       RideStatus
-  fare         Float
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id          String     @id @default(uuid())
+  rideId      String
+  passengerId String
+  fare        Float
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  status      RideStatus
+  baggage     Baggage?
+  passenger   User       @relation("PassengerBookings", fields: [passengerId], references: [id])
+  ride        RideGiven  @relation(fields: [rideId], references: [id])
 }
 
 model Baggage {
-  id            String    @id @default(uuid())
-  numberOfBags  Int
-  totalWeight   Float
-  booking       Booking   @relation(fields: [bookingId], references: [id])
-  bookingId     String    @unique
+  id           String  @id @default(uuid())
+  numberOfBags Int
+  totalWeight  Float
+  bookingId    String  @unique
+  booking      Booking @relation(fields: [bookingId], references: [id])
 }
 
 model DriverVerification {
   id          String   @id @default(uuid())
-  user        User     @relation(fields: [userId], references: [id])
   userId      String   @unique
   documentUrl String
   uploadedAt  DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Location {
-  id           String   @id @default(uuid())
-  user         User     @relation(fields: [userId], references: [id])
-  userId       String   @unique
-  latitude     Float
-  longitude    Float
-  address      String
-  city         String
-  state        String
-  country      String
-  zipCode      String
-  lastUpdated  DateTime @default(now())
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  latitude    Float
+  longitude   Float
+  address     String
+  city        String
+  state       String
+  country     String
+  zipCode     String
+  lastUpdated DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
 }
 
 model Notification {
-  id         String   @id @default(uuid())
-  user       User     @relation(fields: [userId], references: [id])
-  userId     String
-  type       String
-  message    String
-  read       Boolean  @default(false)
-  createdAt  DateTime @default(now())
+  id        String   @id @default(uuid())
+  userId    String
+  type      String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum RideStatus {
-  COMPLETED
-  IN_PROGRESS
-  CANCELLED
   SCHEDULED
   BOOKED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
 
 enum UserRole {
@@ -124,5 +117,3 @@ enum UserRole {
   DRIVER
   ADMIN
 }
-  
-
