@@ -4,21 +4,22 @@ import axios from "axios";
 
 const RideManager = () => {
   const [status, setStatus] = useState("PENDING");
-  const [loading, setLoading] = useState(false);
   const [bookingId, setBookingId] = useState(null);
+  const [startLoading, setStartLoading] = useState(false);
+  const [endLoading, setEndLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
     const fetchBookingId = async () => {
       try {
-        setLoading(true);
-        const res = await axios.get(
-          "http://localhost:5000/driverApprovedRides",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-            }
-          }
-        );
+        setFetching(true);
+        const token = localStorage.getItem("jwtToken");
+
+        const res = await axios.get("http://localhost:5000/driverApprovedRides", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         const firstRide = res.data.approvedRides?.[0];
         if (firstRide) {
@@ -28,7 +29,7 @@ const RideManager = () => {
       } catch (err) {
         console.error("Failed to fetch booking ID:", err);
       } finally {
-        setLoading(false);
+        setFetching(false);
       }
     };
 
@@ -37,48 +38,111 @@ const RideManager = () => {
 
   const handleStartRide = async () => {
     try {
-      setLoading(true);
-      const res = await axios.patch(`http://localhost:5000/bookings/${bookingId}/start`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+      setStartLoading(true);
+      const token = localStorage.getItem("jwtToken");
+
+      const res = await axios.patch(
+        `http://localhost:5000/bookings/${bookingId}/start`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
+
       setStatus(res.data.status);
     } catch (err) {
       console.error("Failed to start ride:", err);
     } finally {
-      setLoading(false);
+      setStartLoading(false);
     }
   };
 
   const handleEndRide = async () => {
     try {
-      setLoading(true);
-      const res = await axios.patch(`http://localhost:5000/bookings/${bookingId}/end`);
+      setEndLoading(true);
+      const token = localStorage.getItem("jwtToken");
+
+      const res = await axios.patch(
+        `http://localhost:5000/bookings/${bookingId}/end`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       setStatus(res.data.status);
     } catch (err) {
       console.error("Failed to end ride:", err);
     } finally {
-      setLoading(false);
+      setEndLoading(false);
     }
   };
 
   return (
-    <div className="ride-manager">
-      <h3>Booking ID: {bookingId || "Loading..."}</h3>
-      <p>Status: {status}</p>
+    <div style={{ 
+      maxWidth: "500px", 
+      margin: "50px auto", 
+      padding: "20px", 
+      borderRadius: "8px", 
+      boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+      backgroundColor: "#fff" 
+    }}>
+      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Ride Status Manager</h1>
+      
+      <div style={{ 
+        backgroundColor: "#f5f5f5", 
+        padding: "15px", 
+        borderRadius: "5px", 
+        marginBottom: "20px" 
+      }}>
+        <h3>Booking ID: {bookingId || "Loading..."}</h3>
+        <p>Current Status: <strong>{status}</strong></p>
+        {(fetching || startLoading || endLoading) && <p>Loading...</p>}
+      </div>
 
-      {status === "PENDING" && bookingId && (
-        <button onClick={handleStartRide} disabled={loading}>
-          {loading ? "Starting..." : "Start Ride"}
+      <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginBottom: "20px" }}>
+        <button 
+          onClick={handleStartRide} 
+          disabled={startLoading || !bookingId}
+          style={{
+            backgroundColor: "#4CAF50",
+            color: "white",
+            border: "none",
+            padding: "10px 15px",
+            borderRadius: "4px",
+            cursor: startLoading ? "not-allowed" : "pointer",
+            opacity: startLoading ? 0.7 : 1
+          }}
+        >
+          {startLoading ? "Starting..." : "Start Ride"}
         </button>
-      )}
 
-      {status === "IN_PROGRESS" && bookingId && (
-        <button onClick={handleEndRide} disabled={loading}>
-          {loading ? "Ending..." : "End Ride"}
+        <button 
+          onClick={handleEndRide} 
+          disabled={endLoading || !bookingId}
+          style={{
+            backgroundColor: "#2196F3",
+            color: "white",
+            border: "none",
+            padding: "10px 15px",
+            borderRadius: "4px",
+            cursor: endLoading ? "not-allowed" : "pointer",
+            opacity: endLoading ? 0.7 : 1
+          }}
+        >
+          {endLoading ? "Ending..." : "End Ride"}
         </button>
-      )}
+      </div>
+
+      <div style={{ color: "#666", fontSize: "12px", textAlign: "center" }}>
+        <p>Debug information:</p>
+        <pre>Status: {JSON.stringify(status)}</pre>
+        <pre>BookingId: {JSON.stringify(bookingId)}</pre>
+      </div>
     </div>
   );
 };
