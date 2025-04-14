@@ -26,6 +26,7 @@ import {
 } from '@mui/material';
 import {
   DirectionsCar,
+  AccountCircle,
   LocationOn,
   AccessTime,
   CurrencyRupee,
@@ -240,7 +241,9 @@ export default function Dashboard() {
     setAnchorEl(null);
     setSelectedBooking(null);
   };
-
+  const handleViewProfile = () => {
+    router.push('/UserProfile');
+  };
   // Commenting out sorting logic
   /*
   const handleSort = (field) => {
@@ -328,6 +331,26 @@ export default function Dashboard() {
               <Typography variant="subtitle1">Welcome, {user?.name || 'User'}</Typography>
             </Box>
             <Box display="flex" gap={2}>
+            <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                startIcon={<AccountCircle />}
+                onClick={handleViewProfile}
+                sx={{
+                  bgcolor: 'rgba(255,255,255,0.2)',
+                  backdropFilter: 'blur(10px)',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  borderRadius: 2,
+                  px: 3,
+                  '&:hover': {
+                    bgcolor: 'rgba(255,255,255,0.3)',
+                  },
+                }}
+              >
+                My Profile
+              </Button>
               <Button
                 variant="contained"
                 color="primary"
@@ -400,6 +423,7 @@ export default function Dashboard() {
                 >
                   Show Approved Rides
                 </Button>
+                
                 <Button
                   variant="contained"
                   color="primary"
@@ -637,27 +661,20 @@ export default function Dashboard() {
           </Box>
 
           <Typography variant="h6" fontWeight="bold" gutterBottom>
-            {ride.startLocation} → {ride.endLocation}
+            {ride.ride.startLocation} → {ride.ride.endLocation}
           </Typography>
 
           <Box display="flex" alignItems="center" gap={1} mb={1}>
             <AccessTime fontSize="small" color="action" />
             <Typography variant="body2" color="textSecondary">
-              {formatDate(ride.departureTime)}
-            </Typography>
-          </Box>
-
-          <Box display="flex" alignItems="center" gap={1} mb={1}>
-            <DirectionsCar fontSize="small" color="action" />
-            <Typography variant="body2" color="textSecondary">
-              {ride.carModel || "Car"} ({ride.carColor || "N/A"})
+              {formatDate(ride.ride.departureTime)}
             </Typography>
           </Box>
 
           <Box display="flex" alignItems="center" gap={1} mb={1}>
             <EventSeat fontSize="small" color="action" />
             <Typography variant="body2" color="textSecondary">
-              {ride.availableSeats} seat{ride.availableSeats !== 1 ? 's' : ''} available
+              {ride.ride.availableSeats} seat{ride.ride.availableSeats !== 1 ? 's' : ''} available
             </Typography>
           </Box>
 
@@ -665,7 +682,7 @@ export default function Dashboard() {
 
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h6" fontWeight="bold" color="primary">
-              ${ride.price}
+            ₹{ride.ride.price}
             </Typography>
           </Box>
         </CardContent>

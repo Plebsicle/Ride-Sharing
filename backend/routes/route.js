@@ -13,6 +13,13 @@ import { startRide,endRide } from '../controllers/rideStatusController.js';
 import { getDriverCompletedRides } from '../controllers/DriverController.js';
 import { getCompletedRides } from '../controllers/passengerController.js';
 
+import { 
+  getVehicleDetails, 
+  updateVehicleDetails, 
+  getDriverVerificationStatus, 
+  submitDriverVerification 
+} from '../controllers/VehicleController.js';
+
 import {
   createBooking,
   getAllBookings,
@@ -26,6 +33,7 @@ import { resetPassword } from '../controllers/AuthConrtroller.js';
 
 import { approveRideRequest, getDriverBookings, getDriverApprovedRides, getDriverRideStats } from '../controllers/DriverController.js';
 import { getApprovedRides, getPendingRequests, getPassengerRideStats } from '../controllers/passengerController.js';
+import { getUserProfile,updateUserLocation,updateUserProfile } from '../controllers/userController.js';
 
 // 🔐 Auth Routes
 
@@ -47,6 +55,11 @@ router.patch('/bookings/:id', authenticate, approveRideRequest);
 // router.get('/driverRides', authenticate, driverRides);
 router.get('/driverApprovedRides', authenticate, getDriverApprovedRides); //
 router.get('/driver/stats', authenticate, getDriverRideStats); // New endpoint for driver stats
+
+///user Routes
+router.post('/user/profile', authenticate, getUserProfile);
+router.put('/user/profile', authenticate, updateUserProfile);
+router.put('/user/location', authenticate, updateUserLocation);
 
 // 📦 Booking Routes
 router.post('/bookings/:rideId', createBooking);
@@ -73,5 +86,10 @@ router.patch('/bookings/:bookingId/end', authenticate, endRide);
 ///
 router.get('/driverCompletedRides', authenticate, getDriverCompletedRides); // New route for driver completed rides
 router.get('/completedRides', authenticate, getCompletedRides); // New route for passenger completed rides
+
+router.get('/driver/vehicle', authenticate, getVehicleDetails);
+router.put('/driver/vehicle', authenticate, updateVehicleDetails);
+router.get('/driver/verification-status', authenticate, getDriverVerificationStatus);
+router.post('/driver/verify', authenticate, submitDriverVerification);
 
 export default router;

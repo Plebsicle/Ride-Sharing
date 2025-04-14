@@ -26,6 +26,8 @@ import {
 } from "@mui/material"
 import {
   DirectionsCar,
+  AccountCircle,
+  Logout,
   LocationOn,
   AccessTime,
   CurrencyRupee,
@@ -182,6 +184,9 @@ export default function DriverDashboard() {
       setBookingsLoading(false)
     }
   }
+  const handleViewProfile = () => {
+    router.push('/DriverProfile');
+  };
 
   const handleUpdateBookingStatus = async (bookingId, newStatus) => {
     console.log(bookingId);
@@ -297,6 +302,7 @@ export default function DriverDashboard() {
               <Typography variant="subtitle1">Manage your rides and track your earnings</Typography>
             </Box>
             <Box display="flex" gap={2}>
+              
               <Button
                 variant="contained"
                 color="primary"
@@ -372,6 +378,23 @@ export default function DriverDashboard() {
                 }}
               >
                 Completed Rides
+              </Button>
+       <Button
+                variant="outlined"
+                color="inherit"
+                startIcon={<AccountCircle />}
+                onClick={handleViewProfile}
+                sx={{
+                  bgcolor: "rgba(255,255,255,0.1)",
+                  backdropFilter: "blur(10px)",
+                  borderColor: "rgba(255,255,255,0.3)",
+                  color: "white",
+                  fontWeight: "medium",
+                  borderRadius: 2,
+                  px: 3,
+                }}
+              >
+                My Profile
               </Button>
               <Button
                 variant="contained"
