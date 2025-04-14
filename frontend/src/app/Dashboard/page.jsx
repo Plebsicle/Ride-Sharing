@@ -28,7 +28,7 @@ import {
   DirectionsCar,
   LocationOn,
   AccessTime,
-  AttachMoney,
+  CurrencyRupee,
   Person,
   MoreVert,
   Refresh,
@@ -48,13 +48,20 @@ import axios from 'axios';
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [bookings, setBookings] = useState([]);
+  const [bookingStats, setBookingStats] = useState({
+    totalCount: 0,
+    acceptedCount: 0
+  });
   const [pendingRides, setPendingRides] = useState([]);
   const [showPendingRides, setShowPendingRides] = useState(false);
   const [pendingRidesLoading, setPendingRidesLoading] = useState(false);
   const [approvedRides, setApprovedRides] = useState([]);
   const [showApprovedRides, setShowApprovedRides] = useState(false);
   const [approvedRidesLoading, setApprovedRidesLoading] = useState(false);
+  const [completedRides, setCompletedRides] = useState([]);
+  const [showCompletedRides, setShowCompletedRides] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [completedRidesLoading, setCompletedRidesLoading] = useState(false);
   const [error, setError] = useState(null);
   const [sortField, setSortField] = useState('departureTime');
   const [sortDirection, setSortDirection] = useState('desc');
@@ -72,6 +79,7 @@ export default function Dashboard() {
         setUser(JSON.parse(userData));
       }
       fetchBookings();
+      fetchUserStats(); // Add call to fetch user stats
     }
   }, [router]);
 
@@ -93,12 +101,40 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
-  //const user = JSON.parse(localStorage.getItem("user"));
+
+  const fetchUserStats = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/passenger/stats", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+        }
+      });
+      
+      if (response.data?.stats) {
+        setBookingStats({
+          totalCount: response.data.stats.totalBookings || 0,
+          acceptedCount: response.data.stats.acceptedBookings || 0,
+        });
+
+        // Update user with rating if available
+        if (response.data.stats.rating) {
+          setUser(prev => ({
+            ...prev,
+            rating: response.data.stats.rating
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user statistics:', error);
+      setError('Failed to load user statistics. Please try again.');
+    }
+  };
+
   const fetchPendingRides = async () => {
     setPendingRidesLoading(true);
     setError(null);
     try {
-      const response = await axios.post("http://localhost:5000/pendingRides",{user}, {
+      const response = await axios.get("http://localhost:5000/pendingRides", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
         }
@@ -122,7 +158,7 @@ export default function Dashboard() {
     setApprovedRidesLoading(true);
     setError(null);
     try {
-      const response = await axios.post("http://localhost:5000/approvedRides",{user}, {
+      const response = await axios.get("http://localhost:5000/approvedRides", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
         }
@@ -160,22 +196,39 @@ export default function Dashboard() {
     localStorage.removeItem('user');
     router.push('/Signin');
   };
-
-  const handleBookRide = (rideId) => {
-    router.push(`/Booking/${rideId}`);
+  
+  const fetchCompletedRides = async () => {
+    setCompletedRidesLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get("http://localhost:5000/completedRides", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
+        }
+      });
+      
+      console.log("Completed Rides API Response:", response.data);
+      
+      setCompletedRides(response.data.completedRides || []);
+      setShowCompletedRides(true);
+      setShowPendingRides(false);
+      setShowApprovedRides(false);
+    } catch (error) {
+      console.error('Error fetching completed rides:', error);
+      setError('Failed to load completed rides. Please try again.');
+    } finally {
+      setCompletedRidesLoading(false);
+    }
+  };
+  const handleShowCompletedRides = () => {
+    fetchCompletedRides();
+  };
+  const handleBookRide = () => {
+    router.push(`/Booking/`);
   };
 
   const handleRefresh = () => {
     fetchBookings();
-  };
-
-  const handleSort = (field) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
-    }
   };
 
   const handleMenuOpen = (event, booking) => {
@@ -188,16 +241,15 @@ export default function Dashboard() {
     setSelectedBooking(null);
   };
 
-  const handleCancelBooking = () => {
-    // Implement cancel booking functionality
-    handleMenuClose();
-  };
-
-  const handleViewDetails = () => {
-    if (selectedBooking) {
-      router.push(`/BookingDetails/${selectedBooking.id}`);
+  // Commenting out sorting logic
+  /*
+  const handleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
     }
-    handleMenuClose();
   };
 
   const sortedBookings = [...bookings].sort((a, b) => {
@@ -212,10 +264,11 @@ export default function Dashboard() {
     }
     return 0;
   });
+  */
 
   const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case 'active':
+    switch (status?.toLowerCase()) {
+      case 'accepted':
         return 'success';
       case 'pending':
         return 'warning';
@@ -223,8 +276,10 @@ export default function Dashboard() {
         return 'info';
       case 'cancelled':
         return 'error';
+      case 'rejected':
+        return 'error';
       default:
-        return 'default';
+        return 'primary';
     }
   };
 
@@ -345,7 +400,16 @@ export default function Dashboard() {
                 >
                   Show Approved Rides
                 </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleShowCompletedRides}
+                  startIcon={<History />}
+                >
+                  Show Completed Rides
+                </Button>
               </>
+              
             )}
             <Tooltip title="Refresh bookings">
               <IconButton onClick={handleRefresh} color="primary" sx={{ bgcolor: 'white', boxShadow: 1 }}>
@@ -387,7 +451,7 @@ export default function Dashboard() {
                   </Typography>
                 </Box>
                 <Typography variant="h4" fontWeight="bold">
-                  {loading ? <Skeleton width={60} /> : bookings.length}
+                  {loading ? <Skeleton width={60} /> : bookingStats.totalCount || bookings.length}
                 </Typography>
               </Paper>
             </Grid>
@@ -414,7 +478,7 @@ export default function Dashboard() {
                   {loading ? (
                     <Skeleton width={60} />
                   ) : (
-                    bookings.filter((booking) => booking.status.toLowerCase() === 'active').length
+                    bookingStats.acceptedCount || bookings.filter((booking) => booking.status.toLowerCase() === 'accepted').length
                   )}
                 </Typography>
               </Paper>
@@ -469,7 +533,7 @@ export default function Dashboard() {
                   size="small"
                   variant={sortField === 'departureTime' ? 'contained' : 'outlined'}
                   color="primary"
-                  onClick={() => handleSort('departureTime')}
+                  onClick={() => {}}
                   endIcon={
                     sortField === 'departureTime' ? (
                       sortDirection === 'asc' ? (
@@ -486,7 +550,7 @@ export default function Dashboard() {
                   size="small"
                   variant={sortField === 'price' ? 'contained' : 'outlined'}
                   color="primary"
-                  onClick={() => handleSort('price')}
+                  onClick={() => {}}
                   endIcon={
                     sortField === 'price' ? (
                       sortDirection === 'asc' ? (
@@ -503,7 +567,7 @@ export default function Dashboard() {
                   size="small"
                   variant={sortField === 'seats' ? 'contained' : 'outlined'}
                   color="primary"
-                  onClick={() => handleSort('seats')}
+                  onClick={() => {}}
                   endIcon={
                     sortField === 'seats' ? (
                       sortDirection === 'asc' ? (
@@ -617,9 +681,9 @@ export default function Dashboard() {
               sx={{
                 p: 4,
                 borderRadius: 2,
-                boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                bgcolor: 'white',
-                textAlign: 'center',
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                bgcolor: "white",
+                textAlign: "center",
               }}
             >
               <Typography variant="h6" color="textSecondary" gutterBottom>
@@ -638,35 +702,35 @@ export default function Dashboard() {
           ) : approvedRides.length > 0 ? (
             <Grid container spacing={3}>
               {approvedRides.map((ride) => (
-                <Grid item xs={12} sm={6} md={4} key={ride.id}>
+                <Grid item xs={12} key={ride.bookingId}>
                   <Card
                     elevation={0}
                     sx={{
                       borderRadius: 2,
-                      overflow: 'hidden',
-                      boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-                      transition: 'transform 0.2s, box-shadow 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: '0 12px 20px rgba(0,0,0,0.1)',
+                      overflow: "hidden",
+                      boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+                      transition: "transform 0.2s, box-shadow 0.2s",
+                      "&:hover": {
+                        transform: "translateY(-4px)",
+                        boxShadow: "0 12px 20px rgba(0,0,0,0.1)",
                       },
-                      position: 'relative',
+                      position: "relative",
                     }}
                   >
                     <Box
                       sx={{
                         height: 8,
-                        width: '100%',
-                        bgcolor: (theme) => theme.palette.success.main,
+                        width: "100%",
+                        bgcolor: (theme) => theme.palette[getStatusColor(ride.status)].main,
                       }}
                     />
                     <CardContent sx={{ pt: 2 }}>
                       <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
                         <Chip
-                          label="Approved"
-                          color="success"
+                          label={ride.status}
+                          color={getStatusColor(ride.status)}
                           size="small"
-                          sx={{ fontWeight: 'bold' }}
+                          sx={{ fontWeight: "bold" }}
                         />
                       </Box>
 
@@ -682,24 +746,55 @@ export default function Dashboard() {
                       </Box>
 
                       <Box display="flex" alignItems="center" gap={1} mb={1}>
-                        <DirectionsCar fontSize="small" color="action" />
+                        <EventSeat fontSize="small" color="action" />
                         <Typography variant="body2" color="textSecondary">
-                          {ride.carModel || "Car"} ({ride.carColor || "N/A"})
+                          Available Seats: {ride.availableSeats}
                         </Typography>
                       </Box>
 
-                      <Box display="flex" alignItems="center" gap={1} mb={1}>
-                        <EventSeat fontSize="small" color="action" />
-                        <Typography variant="body2" color="textSecondary">
-                          {ride.availableSeats} seat{ride.availableSeats !== 1 ? 's' : ''} available
-                        </Typography>
-                      </Box>
+                      {ride.vehicle && (
+                        <Box mt={2}>
+                          <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
+                            Vehicle Details:
+                          </Typography>
+                          <Box display="flex" gap={2}>
+                            <Typography variant="body2">
+                              Model: {ride.vehicle.model}
+                            </Typography>
+                            <Typography variant="body2">
+                              Color: {ride.vehicle.color}
+                            </Typography>
+                            <Typography variant="body2">
+                              License: {ride.vehicle.licenseNo}
+                            </Typography>
+                            <Typography variant="body2">
+                              Capacity: {ride.vehicle.capacity}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      )}
+
+                      {ride.baggage && (
+                        <Box mt={2}>
+                          <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
+                            Baggage Details:
+                          </Typography>
+                          <Box display="flex" gap={2}>
+                            <Typography variant="body2">
+                              Number of Bags: {ride.baggage.numberOfBags}
+                            </Typography>
+                            <Typography variant="body2">
+                              Total Weight: {ride.baggage.totalWeight} kg
+                            </Typography>
+                          </Box>
+                        </Box>
+                      )}
 
                       <Divider sx={{ my: 2 }} />
 
                       <Box display="flex" justifyContent="space-between" alignItems="center">
                         <Typography variant="h6" fontWeight="bold" color="primary">
-                          ${ride.price}
+                          ₹{ride.price}
                         </Typography>
                       </Box>
                     </CardContent>
@@ -713,22 +808,153 @@ export default function Dashboard() {
               sx={{
                 p: 4,
                 borderRadius: 2,
-                boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                bgcolor: 'white',
-                textAlign: 'center',
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                bgcolor: "white",
+                textAlign: "center",
               }}
             >
               <Typography variant="h6" color="textSecondary" gutterBottom>
                 No approved rides found
               </Typography>
               <Typography variant="body2" color="textSecondary" paragraph>
-                There are no approved rides available at the moment.
+                You don't have any approved rides yet.
+              </Typography>
+            </Paper>
+          )
+        ) : showCompletedRides ? (
+          completedRidesLoading ? (
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+              <CircularProgress />
+            </Box>
+          ) : completedRides.length > 0 ? (
+            <Grid container spacing={3}>
+              {completedRides.map((ride) => (
+                <Grid item xs={12} key={ride.bookingId}>
+                  <Card
+                    elevation={0}
+                    sx={{
+                      borderRadius: 2,
+                      overflow: "hidden",
+                      boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+                      transition: "transform 0.2s, box-shadow 0.2s",
+                      "&:hover": {
+                        transform: "translateY(-4px)",
+                        boxShadow: "0 12px 20px rgba(0,0,0,0.1)",
+                      },
+                      position: "relative",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        height: 8,
+                        width: "100%",
+                        bgcolor: (theme) => theme.palette[getStatusColor(ride.status)].main,
+                      }}
+                    />
+                    <CardContent sx={{ pt: 2 }}>
+                      <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
+                        <Chip
+                          label={ride.status}
+                          color={getStatusColor(ride.status)}
+                          size="small"
+                          sx={{ fontWeight: "bold" }}
+                        />
+                      </Box>
+
+                      <Typography variant="h6" fontWeight="bold" gutterBottom>
+                        {ride.startLocation} → {ride.endLocation}
+                      </Typography>
+
+                      <Box display="flex" alignItems="center" gap={1} mb={1}>
+                        <AccessTime fontSize="small" color="action" />
+                        <Typography variant="body2" color="textSecondary">
+                          Departure: {formatDate(ride.departureTime)}
+                        </Typography>
+                      </Box>
+
+                      <Box display="flex" alignItems="center" gap={1} mb={1}>
+                        <AccessTime fontSize="small" color="action" />
+                        <Typography variant="body2" color="textSecondary">
+                          Completed: {formatDate(ride.completedAt)}
+                        </Typography>
+                      </Box>
+
+                      <Box display="flex" alignItems="center" gap={1} mb={1}>
+                        <DirectionsCar fontSize="small" color="action" />
+                        <Typography variant="body2" color="textSecondary">
+                          {ride.carModel} ({ride.carColor})
+                        </Typography>
+                      </Box>
+
+                      {ride.driver && (
+                        <Box mt={2}>
+                          <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
+                            Driver Details:
+                          </Typography>
+                          <Box display="flex" gap={2}>
+                            <Typography variant="body2">
+                              Name: {ride.driver.name}
+                            </Typography>
+                            <Typography variant="body2">
+                              Email: {ride.driver.email}
+                            </Typography>
+                            <Typography variant="body2">
+                              Phone: {ride.driver.phone}
+                            </Typography>
+                          </Box>
+                        </Box>
+                      )}
+
+                      {ride.baggage && (
+                        <Box mt={2}>
+                          <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
+                            Baggage Details:
+                          </Typography>
+                          <Box display="flex" gap={2}>
+                            <Typography variant="body2">
+                              Number of Bags: {ride.baggage.numberOfBags}
+                            </Typography>
+                            <Typography variant="body2">
+                              Total Weight: {ride.baggage.totalWeight} kg
+                            </Typography>
+                          </Box>
+                        </Box>
+                      )}
+
+                      <Divider sx={{ my: 2 }} />
+
+                      <Box display="flex" justifyContent="space-between" alignItems="center">
+                        <Typography variant="h6" fontWeight="bold" color="primary">
+                          ₹{ride.price}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Paper
+              elevation={0}
+              sx={{
+                p: 4,
+                borderRadius: 2,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                bgcolor: "white",
+                textAlign: "center",
+              }}
+            >
+              <Typography variant="h6" color="textSecondary" gutterBottom>
+                No completed rides found
+              </Typography>
+              <Typography variant="body2" color="textSecondary" paragraph>
+                You don't have any completed rides yet.
               </Typography>
             </Paper>
           )
         ) : (
           <Grid container spacing={3}>
-            {sortedBookings.map((booking) => (
+            {/* {sortedBookings.map((booking) => (
               <Grid item xs={12} sm={6} md={4} key={booking.id}>
                 <Card
                   elevation={0}
@@ -812,13 +1038,13 @@ export default function Dashboard() {
                   </CardActions>
                 </Card>
               </Grid>
-            ))}
+            ))} */}
           </Grid>
         )}
 
         <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-          <MenuItem onClick={handleViewDetails}>View Details</MenuItem>
-          <MenuItem onClick={handleCancelBooking}>Cancel Booking</MenuItem>
+          {/* <MenuItem onClick={handleViewDetails}>View Details</MenuItem>
+          <MenuItem onClick={handleCancelBooking}>Cancel Booking</MenuItem> */}
           <MenuItem onClick={handleMenuClose}>Contact Driver</MenuItem>
         </Menu>
       </Container>

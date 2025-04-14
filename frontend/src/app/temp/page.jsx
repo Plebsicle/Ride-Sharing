@@ -17,7 +17,7 @@ import {
   IconButton,
   Paper,
   Skeleton,
-  Alert,  
+  Alert,
   Tooltip,
   LinearProgress,
   Menu,
@@ -28,7 +28,7 @@ import {
   DirectionsCar,
   LocationOn,
   AccessTime,
-  CurrencyRupee,
+  AttachMoney,
   Person,
   MoreVert,
   Refresh,
@@ -38,13 +38,15 @@ import {
   ArrowUpward,
   ArrowDownward,
   ArrowBack,
-  PendingActions,
+  History,
+  Logout,
 } from "@mui/icons-material"
 import axios from "axios"
+import { useAuth } from "../hooks/useAuth"
 
 export default function DriverDashboard() {
+  const { user, loading: authLoading, getAuthHeader, logout } = useAuth();
   const [rides, setRides] = useState([])
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null)
@@ -54,32 +56,24 @@ export default function DriverDashboard() {
   const [bookingsLoading, setBookingsLoading] = useState(false)
   const [approvedRides, setApprovedRides] = useState([])
   const [showApprovedRides, setShowApprovedRides] = useState(false)
-  const [completedRidesLoading, setCompletedRidesLoading] = useState(false)
   const [approvedRidesLoading, setApprovedRidesLoading] = useState(false)
   const [completedRides, setCompletedRides] = useState([])
   const [showCompletedRides, setShowCompletedRides] = useState(false)
+  const [completedRidesLoading, setCompletedRidesLoading] = useState(false)
   const router = useRouter();
 
   useEffect(() => {
-    fetchRides();
-    fetchDriverStats(); // Add call to fetch driver statistics
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      setUser(JSON.parse(userData));
+    if (user) {
+      fetchRides();
     }
-  }, [])
+  }, [user])
 
   const fetchRides = async () => {
     setLoading(true)
     setError(null)
     try {
-      // const response = await axios.get("http://localhost:5000/driverRides", {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-      //   }
-      // })
-      // setRides(response.data.rides)
-      // setLoading(false)
+      // Implementation of fetch rides
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching rides:", error)
       setError("Failed to load rides. Please try again.")
@@ -87,52 +81,6 @@ export default function DriverDashboard() {
       setLoading(false)
     }
   }
-  const handleViewCompletedRides = async () => {
-    setCompletedRidesLoading(true)
-    setError(null)
-    try {
-      const response = await axios.get("http://localhost:5000/driverCompletedRides", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-        }
-      })
-      
-      console.log("Completed Rides API Response:", response.data)
-      
-      setCompletedRides(response.data.completedRides || [])
-      setShowCompletedRides(true)
-      setShowApprovedRides(false)
-      setShowBookings(false)
-    } catch (error) {
-      console.error("Error fetching completed rides:", error)
-      setError("Failed to load completed rides. Please try again.")
-    } finally {
-      setCompletedRidesLoading(false)
-    }
-  }
-  const fetchDriverStats = async () => {
-    try {
-      const response = await axios.get("http://localhost:5000/driver/stats", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-        }
-      });
-      
-      if (response.data?.stats) {
-        // Update rides state with the statistics
-        setRides(prev => ({
-          ...prev,
-          totalCount: response.data.stats.totalRides || 0,
-          activeCount: response.data.stats.activeRides || 0,
-          totalEarnings: response.data.stats.totalEarnings || 0,
-          acceptedRides: response.data.stats.acceptedRides || 0
-        }));
-      }
-    } catch (error) {
-      console.error("Error fetching driver statistics:", error);
-      setError("Failed to load driver statistics. Please try again.");
-    }
-  };
 
   const handleCreateRide = () => {
     router.push("/CreateRide")
@@ -163,16 +111,17 @@ export default function DriverDashboard() {
     // Implement cancel ride functionality
     handleMenuClose()
   }
-  // const user = JSON.parse(localStorage.getItem('user'));
+  
   const handleViewBookings = async () => {
+    if (!user) return;
+    
     setBookingsLoading(true)
     try {
-      const response = await axios.get("http://localhost:5000/driver/bookings",  {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-        },
-      
-      })
+      const response = await axios.post(
+        "http://localhost:5000/driver/bookings", 
+        { user }, 
+        { headers: getAuthHeader() }
+      )
       setBookings(response.data.data)
       setShowBookings(true)
     } catch (error) {
@@ -190,11 +139,7 @@ export default function DriverDashboard() {
       await axios.patch(
         `http://localhost:5000/bookings/${bookingId}`,
         { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-          },
-        }
+        { headers: getAuthHeader() }
       )
       // Refresh bookings after status update
       handleViewBookings()
@@ -205,15 +150,16 @@ export default function DriverDashboard() {
   }
 
   const handleViewApprovedRides = async () => {
+    if (!user) return;
+    
     setApprovedRidesLoading(true)
     setError(null)
-    // const user = JSON.parse(localStorage.getItem('user')); 
     try {
-      const response = await axios.get("http://localhost:5000/driverApprovedRides",{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`
-        }
-      })
+      const response = await axios.post(
+        "http://localhost:5000/driverApprovedRides", 
+        { user }, 
+        { headers: getAuthHeader() }
+      )
       
       console.log("Approved Rides API Response:", response.data)
       
@@ -228,32 +174,57 @@ export default function DriverDashboard() {
     }
   }
 
-  const handleBackToRides = () => {
-    setShowApprovedRides(false)
-    setShowBookings(false)
-  }
-
-  // const sortedRides = [...rides]
-
-  const getStatusColor = (status) => {
-    switch (status?.toLowerCase()) {
-      case 'accepted':
-        return 'success';
-      case 'pending':
-        return 'warning';
-      case 'completed':
-        return 'info';
-      case 'cancelled':
-        return 'error';
-      case 'rejected':
-        return 'error';
-      default:
-        return 'primary';
+  const handleViewCompletedRides = async () => {
+    if (!user) return;
+    
+    setCompletedRidesLoading(true)
+    setError(null)
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/driverCompletedRides", 
+        { user }, 
+        { headers: getAuthHeader() }
+      )
+      
+      console.log("Completed Rides API Response:", response.data)
+      
+      setCompletedRides(response.data.completedRides || [])
+      setShowCompletedRides(true)
+      setShowApprovedRides(false)
+      setShowBookings(false)
+    } catch (error) {
+      console.error("Error fetching completed rides:", error)
+      setError("Failed to load completed rides. Please try again.")
+    } finally {
+      setCompletedRidesLoading(false)
     }
   }
 
-  async function passengerDetailHandler(){
+  const handleBackToRides = () => {
+    setShowApprovedRides(false)
+    setShowBookings(false)
+    setShowCompletedRides(false)
+  }
 
+  const handleLogout = () => {
+    logout();
+  };
+
+  const sortedRides = [...rides]
+
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case "active":
+        return "success"
+      case "pending":
+        return "warning"
+      case "completed":
+        return "info"
+      case "cancelled":
+        return "error"
+      default:
+        return "default"
+    }
   }
 
   const formatDate = (dateString) => {
@@ -267,7 +238,7 @@ export default function DriverDashboard() {
     })
   }
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
         <CircularProgress />
@@ -294,7 +265,9 @@ export default function DriverDashboard() {
               <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
                 Driver Dashboard
               </Typography>
-              <Typography variant="subtitle1">Manage your rides and track your earnings</Typography>
+              <Typography variant="subtitle1">
+                Welcome, {user?.name || 'Driver'}
+              </Typography>
             </Box>
             <Box display="flex" gap={2}>
               <Button
@@ -358,27 +331,11 @@ export default function DriverDashboard() {
                 View Approved Rides
               </Button>
               <Button
-                variant="outlined"
-                color="inherit"
-                onClick={handleViewCompletedRides}
-                sx={{
-                  bgcolor: "rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(10px)",
-                  borderColor: "rgba(255,255,255,0.3)",
-                  color: "white",
-                  fontWeight: "medium",
-                  borderRadius: 2,
-                  px: 3,
-                }}
-              >
-                Completed Rides
-              </Button>
-              <Button
                 variant="contained"
                 color="info"
                 size="large"
-                startIcon={<PendingActions />}
-                onClick={() => router.push("/ride-status-update")}
+                startIcon={<History />}
+                onClick={handleViewCompletedRides}
                 sx={{
                   bgcolor: "rgba(255,255,255,0.2)",
                   backdropFilter: "blur(10px)",
@@ -391,7 +348,23 @@ export default function DriverDashboard() {
                   },
                 }}
               >
-                Update Ride Status
+                View Completed Rides
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                startIcon={<Logout />}
+                onClick={handleLogout}
+                sx={{
+                  borderColor: 'white',
+                  color: 'white',
+                  '&:hover': {
+                    borderColor: 'white',
+                    bgcolor: 'rgba(255,255,255,0.1)',
+                  },
+                }}
+              >
+                Logout
               </Button>
             </Box>
           </Box>
@@ -419,7 +392,7 @@ export default function DriverDashboard() {
             ) : approvedRides.length > 0 ? (
               <Grid container spacing={3}>
                 {approvedRides.map((ride) => (
-                  <Grid item xs={12} key={ride.bookingId}>
+                  <Grid item xs={12} sm={6} md={4} key={ride.id}>
                     <Card
                       elevation={0}
                       sx={{
@@ -438,19 +411,10 @@ export default function DriverDashboard() {
                         sx={{
                           height: 8,
                           width: "100%",
-                          bgcolor: (theme) => theme.palette[getStatusColor(ride.status)].main,
+                          bgcolor: (theme) => theme.palette.success.main,
                         }}
                       />
                       <CardContent sx={{ pt: 2 }}>
-                        <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
-                          <Chip
-                            label={ride.status}
-                            color={getStatusColor(ride.status)}
-                            size="small"
-                            sx={{ fontWeight: "bold" }}
-                          />
-                        </Box>
-
                         <Typography variant="h6" fontWeight="bold" gutterBottom>
                           {ride.startLocation} → {ride.endLocation}
                         </Typography>
@@ -463,66 +427,33 @@ export default function DriverDashboard() {
                         </Box>
 
                         <Box display="flex" alignItems="center" gap={1} mb={1}>
-                          <EventSeat fontSize="small" color="action" />
+                          <LocationOn fontSize="small" color="action" />
                           <Typography variant="body2" color="textSecondary">
-                            Available Seats: {ride.availableSeats}
+                            {ride.distance || "N/A"} km
                           </Typography>
                         </Box>
 
-                        {ride.vehicle && (
-                          <Box mt={2}>
-                            <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
-                              Vehicle Details:
-                            </Typography>
-                            <Box display="flex" gap={2}>
-                              <Typography variant="body2">
-                                Model: {ride.vehicle.model}
-                              </Typography>
-                              <Typography variant="body2">
-                                Color: {ride.vehicle.color}
-                              </Typography>
-                              <Typography variant="body2">
-                                License: {ride.vehicle.licenseNo}
-                              </Typography>
-                              <Typography variant="body2">
-                                Capacity: {ride.vehicle.capacity}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        )}
-
-                        {ride.baggage && (
-                          <Box mt={2}>
-                            <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
-                              Baggage Details:
-                            </Typography>
-                            <Box display="flex" gap={2}>
-                              <Typography variant="body2">
-                                Number of Bags: {ride.baggage.numberOfBags}
-                              </Typography>
-                              <Typography variant="body2">
-                                Total Weight: {ride.baggage.totalWeight} kg
-                              </Typography>
-                            </Box>
-                          </Box>
-                        )}
+                        <Box display="flex" alignItems="center" gap={1} mb={1}>
+                          <EventSeat fontSize="small" color="action" />
+                          <Typography variant="body2" color="textSecondary">
+                            {ride.availableSeats} seats available
+                          </Typography>
+                        </Box>
 
                         <Divider sx={{ my: 2 }} />
 
                         <Box display="flex" justifyContent="space-between" alignItems="center">
                           <Typography variant="h6" fontWeight="bold" color="primary">
-                            ₹{ride.price}
+                            ${ride.price}
                           </Typography>
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            onClick={() => handleViewPassengerDetails(ride)}
-                          >
-                            View Passenger Details
-                          </Button>
+                          <Chip label={`${ride.bookedSeats || 0} booked`} size="small" variant="outlined" color="primary" />
                         </Box>
                       </CardContent>
+                      <CardActions sx={{ p: 2, pt: 0 }}>
+                        <Button size="small" variant="outlined" fullWidth>
+                          View Details
+                        </Button>
+                      </CardActions>
                     </Card>
                   </Grid>
                 ))}
@@ -576,22 +507,9 @@ export default function DriverDashboard() {
                         borderRadius: 2,
                         overflow: "hidden",
                         boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
-                        transition: "transform 0.2s, box-shadow 0.2s",
-                        "&:hover": {
-                          transform: "translateY(-4px)",
-                          boxShadow: "0 12px 20px rgba(0,0,0,0.1)",
-                        },
-                        position: "relative",
                       }}
                     >
-                      <Box
-                        sx={{
-                          height: 8,
-                          width: "100%",
-                          bgcolor: (theme) => theme.palette[getStatusColor(booking.status)].main,
-                        }}
-                      />
-                      <CardContent sx={{ pt: 2 }}>
+                      <CardContent>
                         <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
                           <Chip
                             label={booking.status}
@@ -626,28 +544,6 @@ export default function DriverDashboard() {
                           </Typography>
                         </Box>
 
-                        {booking.vehicle && (
-                          <Box mt={2}>
-                            <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
-                              Vehicle Details:
-                            </Typography>
-                            <Box display="flex" gap={2}>
-                              <Typography variant="body2">
-                                Model: {booking.vehicle.model}
-                              </Typography>
-                              <Typography variant="body2">
-                                Color: {booking.vehicle.color}
-                              </Typography>
-                              <Typography variant="body2">
-                                License: {booking.vehicle.licenseNo}
-                              </Typography>
-                              <Typography variant="body2">
-                                Capacity: {booking.vehicle.capacity}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        )}
-
                         {booking.baggage && (
                           <Box mt={2}>
                             <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
@@ -668,7 +564,7 @@ export default function DriverDashboard() {
 
                         <Box display="flex" justifyContent="space-between" alignItems="center">
                           <Typography variant="h6" fontWeight="bold" color="primary">
-                            ₹{booking.fare}
+                            ${booking.fare}
                           </Typography>
                           {booking.status === "PENDING" && (
                             <Box display="flex" gap={1}>
@@ -724,7 +620,7 @@ export default function DriverDashboard() {
               </Typography>
               <Button
                 variant="outlined"
-                onClick={() => setShowCompletedRides(false)}
+                onClick={handleBackToRides}
                 startIcon={<ArrowBack />}
               >
                 Back to Rides
@@ -738,7 +634,7 @@ export default function DriverDashboard() {
             ) : completedRides.length > 0 ? (
               <Grid container spacing={3}>
                 {completedRides.map((ride) => (
-                  <Grid item xs={12} key={ride.bookingId || ride.id}>
+                  <Grid item xs={12} sm={6} md={4} key={ride.id}>
                     <Card
                       elevation={0}
                       sx={{
@@ -757,129 +653,49 @@ export default function DriverDashboard() {
                         sx={{
                           height: 8,
                           width: "100%",
-                          bgcolor: (theme) => theme.palette.info.main,
+                          bgcolor: (theme) => theme.palette.success.main,
                         }}
                       />
                       <CardContent sx={{ pt: 2 }}>
-                        <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
-                          <Chip
-                            label="COMPLETED"
-                            color="info"
-                            size="small"
-                            sx={{ fontWeight: "bold" }}
-                          />
-                        </Box>
-
                         <Typography variant="h6" fontWeight="bold" gutterBottom>
                           {ride.startLocation} → {ride.endLocation}
                         </Typography>
 
-                        <Grid container spacing={2}>
-                          <Grid item xs={12} md={6}>
-                            <Box>
-                              <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
-                                Ride Details:
-                              </Typography>
-                              
-                              <Box display="flex" alignItems="center" gap={1} mb={1}>
-                                <AccessTime fontSize="small" color="action" />
-                                <Typography variant="body2" color="textSecondary">
-                                  Departure: {formatDate(ride.departureTime)}
-                                </Typography>
-                              </Box>
-                              
-                              <Box display="flex" alignItems="center" gap={1} mb={1}>
-                                <LocationOn fontSize="small" color="action" />
-                                <Typography variant="body2" color="textSecondary">
-                                  Route: {ride.distance}
-                                </Typography>
-                              </Box>
-                              
-                              <Box display="flex" alignItems="center" gap={1} mb={1}>
-                                <CurrencyRupee fontSize="small" color="action" />
-                                <Typography variant="body2" color="textSecondary">
-                                  Fare: ₹{ride.price}
-                                </Typography>
-                              </Box>
-                              
-                              <Box display="flex" alignItems="center" gap={1} mb={1}>
-                                <AccessTime fontSize="small" color="action" />
-                                <Typography variant="body2" color="textSecondary">
-                                  Completed on: {formatDate(ride.completedAt)}
-                                </Typography>
-                              </Box>
-                            </Box>
-                          </Grid>
-                          
-                          <Grid item xs={12} md={6}>
-                            <Box>
-                              <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
-                                Passenger Details:
-                              </Typography>
-                              
-                              <Box display="flex" alignItems="center" gap={1} mb={1}>
-                                <Person fontSize="small" color="action" />
-                                <Typography variant="body2" color="textSecondary">
-                                  Name: {ride.passenger?.name}
-                                </Typography>
-                              </Box>
-                              
-                              <Box display="flex" alignItems="center" gap={1} mb={1}>
-                                <Typography variant="body2" color="textSecondary" ml={3}>
-                                  Email: {ride.passenger?.email}
-                                </Typography>
-                              </Box>
-                              
-                              {ride.baggage && (
-                                <>
-                                  <Typography variant="subtitle2" fontWeight="bold" mt={2} gutterBottom>
-                                    Baggage Details:
-                                  </Typography>
-                                  <Box display="flex" gap={2} ml={3}>
-                                    <Typography variant="body2">
-                                      Bags: {ride.baggage.numberOfBags}
-                                    </Typography>
-                                    <Typography variant="body2">
-                                      Weight: {ride.baggage.totalWeight} kg
-                                    </Typography>
-                                  </Box>
-                                </>
-                              )}
-                            </Box>
-                          </Grid>
-                        </Grid>
+                        <Box display="flex" alignItems="center" gap={1} mb={1}>
+                          <AccessTime fontSize="small" color="action" />
+                          <Typography variant="body2" color="textSecondary">
+                            {formatDate(ride.departureTime)}
+                          </Typography>
+                        </Box>
 
-                        {ride.vehicle && (
-                          <Box mt={2}>
-                            <Typography variant="subtitle2" fontWeight="bold" gutterBottom>
-                              Vehicle Details:
-                            </Typography>
-                            <Box display="flex" gap={2}>
-                              <Typography variant="body2">
-                                Model: {ride.vehicle.model}
-                              </Typography>
-                              <Typography variant="body2">
-                                Color: {ride.vehicle.color}
-                              </Typography>
-                              <Typography variant="body2">
-                                License: {ride.vehicle.licenseNo}
-                              </Typography>
-                              <Typography variant="body2">
-                                Capacity: {ride.vehicle.capacity}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        )}
+                        <Box display="flex" alignItems="center" gap={1} mb={1}>
+                          <LocationOn fontSize="small" color="action" />
+                          <Typography variant="body2" color="textSecondary">
+                            {ride.distance || "N/A"} km
+                          </Typography>
+                        </Box>
+
+                        <Box display="flex" alignItems="center" gap={1} mb={1}>
+                          <EventSeat fontSize="small" color="action" />
+                          <Typography variant="body2" color="textSecondary">
+                            {ride.availableSeats} seats available
+                          </Typography>
+                        </Box>
 
                         <Divider sx={{ my: 2 }} />
 
                         <Box display="flex" justifyContent="space-between" alignItems="center">
                           <Typography variant="h6" fontWeight="bold" color="primary">
-                            ₹{ride.price}
+                            ${ride.price}
                           </Typography>
-                          <Chip label={`Booking #${ride.bookingId?.substring(0, 8) || 'N/A'}`} size="small" variant="outlined" color="info" />
+                          <Chip label={`${ride.bookedSeats || 0} booked`} size="small" variant="outlined" color="primary" />
                         </Box>
                       </CardContent>
+                      <CardActions sx={{ p: 2, pt: 0 }}>
+                        <Button size="small" variant="outlined" fullWidth>
+                          View Details
+                        </Button>
+                      </CardActions>
                     </Card>
                   </Grid>
                 ))}
@@ -951,7 +767,7 @@ export default function DriverDashboard() {
                       </Typography>
                     </Box>
                     <Typography variant="h4" fontWeight="bold">
-                      {loading ? <Skeleton width={60} /> : rides.totalCount || 0}
+                      {loading ? <Skeleton width={60} /> : rides.length}
                     </Typography>
                   </Paper>
                 </Grid>
@@ -971,14 +787,14 @@ export default function DriverDashboard() {
                         <Person />
                       </Avatar>
                       <Typography variant="h6" fontWeight="medium">
-                        Accepted Rides
+                        Active Rides
                       </Typography>
                     </Box>
                     <Typography variant="h4" fontWeight="bold">
                       {loading ? (
                         <Skeleton width={60} />
                       ) : (
-                        rides.acceptedRides || 0
+                        rides.filter((ride) => ride.status.toLowerCase() === "active").length
                       )}
                     </Typography>
                   </Paper>
@@ -996,7 +812,7 @@ export default function DriverDashboard() {
                   >
                     <Box display="flex" alignItems="center" gap={1} mb={1}>
                       <Avatar sx={{ bgcolor: "#ff9800", width: 40, height: 40 }}>
-                        <CurrencyRupee />
+                        <AttachMoney />
                       </Avatar>
                       <Typography variant="h6" fontWeight="medium">
                         Total Earnings
@@ -1006,7 +822,7 @@ export default function DriverDashboard() {
                       {loading ? (
                         <Skeleton width={80} />
                       ) : (
-                        `₹${rides.totalEarnings?.toFixed(2) || 0}`
+                        `$${rides.reduce((sum, ride) => sum + (ride.price || 0), 0).toFixed(2)}`
                       )}
                     </Typography>
                   </Paper>
@@ -1045,7 +861,7 @@ export default function DriverDashboard() {
               </Paper>
             )}
 
-            {/* <Grid container spacing={3}>
+            <Grid container spacing={3}>
               {sortedRides.map((ride) => (
                 <Grid item xs={12} sm={6} md={4} key={ride.id}>
                   <Card
@@ -1124,7 +940,7 @@ export default function DriverDashboard() {
                   </Card>
                 </Grid>
               ))}
-            </Grid> */}
+            </Grid>
 
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
               <MenuItem onClick={handleEditRide}>Edit Ride</MenuItem>

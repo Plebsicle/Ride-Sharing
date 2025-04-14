@@ -8,6 +8,11 @@ import { getAllRides } from '../controllers/CreateRide.js';
 import { createRide } from '../controllers/CreateRide.js';
 // import {driverRides} from '../controllers/DriverController.js';
 
+import { startRide,endRide } from '../controllers/rideStatusController.js';
+
+import { getDriverCompletedRides } from '../controllers/DriverController.js';
+import { getCompletedRides } from '../controllers/passengerController.js';
+
 import {
   createBooking,
   getAllBookings,
@@ -16,8 +21,11 @@ import {
   deleteBooking
 } from '../controllers/Booking.js';
 
-import {  approveRideRequest, getDriverBookings,getDriverApprovedRides } from '../controllers/DriverController.js';
-import { getApprovedRides, getPendingRequests } from '../controllers/passengerController.js';
+import { forgotPassword } from '../controllers/AuthConrtroller.js';
+import { resetPassword } from '../controllers/AuthConrtroller.js';
+
+import { approveRideRequest, getDriverBookings, getDriverApprovedRides, getDriverRideStats } from '../controllers/DriverController.js';
+import { getApprovedRides, getPendingRequests, getPassengerRideStats } from '../controllers/passengerController.js';
 
 // 🔐 Auth Routes
 
@@ -28,16 +36,17 @@ router.post('/login', login);
 router.post('/send-otp', sendOtpToUser);
 router.post('/verify-otp', verifyOtp);
 
-router.post('/create-ride', createRide);
-router.get('/rides',getAllRides);
+router.post('/create-ride', authenticate, createRide);
+router.get('/rides', getAllRides);
 
 // Driver Routes
 // router.get('/driver/rides', authenticate, getDriverRides);
 // router.post('/driver/rides/:rideId/approve', authenticate, approveRideRequest);
-router.post('/driver/bookings', authenticate, getDriverBookings); //
-router.patch('/bookings/:id',authenticate,approveRideRequest);
-// router.get('/driverRides',authenticate,driverRides);
-router.post('/driverApprovedRides',authenticate,getDriverApprovedRides); //
+router.get('/driver/bookings', authenticate, getDriverBookings); //
+router.patch('/bookings/:id', authenticate, approveRideRequest);
+// router.get('/driverRides', authenticate, driverRides);
+router.get('/driverApprovedRides', authenticate, getDriverApprovedRides); //
+router.get('/driver/stats', authenticate, getDriverRideStats); // New endpoint for driver stats
 
 // 📦 Booking Routes
 router.post('/bookings/:rideId', createBooking);
@@ -47,7 +56,22 @@ router.put('/bookings/:id', authenticate, updateBooking);
 router.delete('/bookings/:id', authenticate, deleteBooking);
 
 /// Passenger Routes
-router.post('/pendingRides',authenticate,getPendingRequests); //
-router.post('/approvedRides',authenticate , getApprovedRides); //
+router.get('/pendingRides', authenticate, getPendingRequests); //
+router.get('/approvedRides', authenticate, getApprovedRides); //
+router.get('/passenger/stats', authenticate, getPassengerRideStats); // New endpoint for passenger stats
+
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
+
+
+
+
+
+////
+router.patch('/bookings/:bookingId/start', authenticate, startRide);
+router.patch('/bookings/:bookingId/end', authenticate, endRide);
+///
+router.get('/driverCompletedRides', authenticate, getDriverCompletedRides); // New route for driver completed rides
+router.get('/completedRides', authenticate, getCompletedRides); // New route for passenger completed rides
 
 export default router;
